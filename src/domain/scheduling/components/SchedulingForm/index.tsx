@@ -75,7 +75,7 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
     setSubmitSuccess(false);
 
     try {
-      const url = `${import.meta.env.VITE_API_URL}/scheduling"`;
+      const url = `${import.meta.env.VITE_API_URL}/scheduling`;
       const method = "POST";
 
       const response = await fetch(url, {
