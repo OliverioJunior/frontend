@@ -1,0 +1,16 @@
+.content {
+  display: grid;
+  gap: 2rem;
+}
+.message {
+  margin-top: 1rem;
+  color: rgb(71, 69, 69)
+}
+
+.actions {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+}

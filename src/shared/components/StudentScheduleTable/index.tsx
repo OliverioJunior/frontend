@@ -1,0 +1,106 @@
+import React from "react";
+import "./StudentScheduleTable.css";
+import type { IScheduling } from "../../../hooks/useScheduling";
+
+interface StudentScheduleTableProps {
+  schedulings?: IScheduling[];
+  onEdit?: (id: string) => void;
+  onCancel?: (id: string) => void;
+  className?: string;
+}
+
+export const StudentScheduleTable: React.FC<StudentScheduleTableProps> = ({
+  schedulings = [],
+  onEdit,
+  onCancel,
+  className = "",
+}) => {
+  const getStatusBadge = (status: string): React.ReactElement => {
+    const statusClass = `status-badge status-${status
+      ?.toLowerCase()
+      .replace(/\s+/g, "-")}`;
+    return <span className={statusClass}>{status}</span>;
+  };
+
+  const formatDateTime = (dateTime: string): string => {
+    try {
+      return new Date(dateTime).toLocaleString("pt-BR");
+    } catch {
+      return dateTime;
+    }
+  };
+
+  if (!schedulings || schedulings.length === 0 || !Array.isArray(schedulings)) {
+    return (
+      <div className="empty-state">
+        <p>Nenhum agendamento encontrado</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className={`table-container ${className}`}>
+      <table className="student-table">
+        <thead>
+          <tr>
+            <th>Aulas</th>
+            <th>Status</th>
+            <th>Aluno</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {schedulings.map((scheduling) => (
+            <tr
+              key={scheduling.id || scheduling.dateTime}
+              className="table-row"
+            >
+              <td className="content-cell">
+                <div className="content-info">
+                  <div className="content-title">{scheduling.content}</div>
+                  {scheduling.dateTime && (
+                    <div className="content-date">
+                      {formatDateTime(scheduling.dateTime)}
+                    </div>
+                  )}
+                </div>
+              </td>
+              <td>{getStatusBadge(scheduling.status)}</td>
+              <td className="student-cell">
+                <div className="student-info">
+                  <div className="student-name">
+                    {scheduling.student?.firstName}{" "}
+                    {scheduling.student?.lastName}
+                  </div>
+                  {scheduling.student?.email && (
+                    <div className="student-email">
+                      {scheduling.student.email}
+                    </div>
+                  )}
+                </div>
+              </td>
+              <td className="actions-cell">
+                <button
+                  className="btn btn-edit"
+                  onClick={() => onEdit?.(scheduling.id)}
+                  type="button"
+                >
+                  Editar
+                </button>
+                <button
+                  className="btn btn-cancel"
+                  onClick={() => onCancel?.(scheduling.id)}
+                  type="button"
+                >
+                  Cancelar
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export type { StudentScheduleTableProps };

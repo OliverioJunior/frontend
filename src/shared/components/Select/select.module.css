@@ -1,0 +1,99 @@
+.select {
+    position: relative;
+    width: 100%;
+    min-width: 200px;
+  }
+  
+  .selectButton {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+  }
+  
+  .selectButton:hover {
+    border-color: #9ca3af;
+  }
+  
+  .selectButtonFocused {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  .selectButtonDisabled {
+    background-color: #f9fafb;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  
+  .selectButtonDisabled:hover {
+    border-color: #d1d5db;
+  }
+  
+  .selectedValue {
+    color: #111827;
+    text-align: left;
+  }
+  
+  .placeholder {
+    color: #9ca3af;
+    text-align: left;
+  }
+  
+  .chevron {
+    transition: transform 0.2s ease;
+    color: #6b7280;
+  }
+  
+  .chevronRotated {
+    transform: rotate(180deg);
+  }
+  
+  .dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    margin-top: 4px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .option {
+    padding: 10px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #111827;
+    transition: background-color 0.2s ease;
+  }
+  
+  .option:hover {
+    background-color: #f3f4f6;
+  }
+  
+  .optionSelected {
+    background-color: #dbeafe;
+    color: #1d4ed8;
+  }
+  
+  .optionSelected:hover {
+    background-color: #bfdbfe;
+  }
+  
+  .option:last-child {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+  }

@@ -1,0 +1,67 @@
+/* loading-spinner.module.css */
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #6b7280;
+  }
+  
+  .spinner {
+    animation: spin 1s linear infinite;
+    color: #2563eb;
+  }
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .message {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .small {
+    gap: 6px;
+  }
+  
+  .small .message {
+    font-size: 12px;
+  }
+  
+  .medium {
+    gap: 8px;
+  }
+  
+  .large {
+    gap: 12px;
+    flex-direction: column;
+  }
+  
+  .large .message {
+    font-size: 16px;
+  }
+  
+  /* Estados de acessibilidade */
+  @media (prefers-reduced-motion: reduce) {
+    .spinner {
+      animation: none;
+    }
+  }
+  
+  /* Tema escuro */
+  @media (prefers-color-scheme: dark) {
+    .container {
+      color: #9ca3af;
+    }
+    
+    .spinner {
+      color: #3b82f6;
+    }
+  }
