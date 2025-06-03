@@ -90,7 +90,8 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
       const json = await response.json();
 
       if (json.status !== 201) {
-        throw new Error(json.message || "Erro na operação");
+        toast.error(json.message);
+        return;
       }
       setSubmitSuccess(true);
       toast.success("Agendamento criado com sucesso");
