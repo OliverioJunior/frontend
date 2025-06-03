@@ -49,6 +49,7 @@ export const TeacherFormEdit: React.FC<ITeacherForm> = ({
       const json = await response.json();
       if (json.status !== 200) {
         toast.error(json.message, "Erro ao atualizar professor");
+        return;
       }
       toast.success(json.message, "Professor atualizado com sucesso");
 

@@ -80,6 +80,7 @@ export const StudentForm: React.FC<IStudentForm> = ({ onClose }) => {
 
       if (responseData.status !== 201) {
         toast.error(responseData.message, "Erro ao criar aluno");
+        return;
       }
 
       toast.success("Aluno criado com sucesso", "Sucesso");

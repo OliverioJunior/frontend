@@ -96,7 +96,7 @@ export const SchedulingFormEdit: React.FC<ISchedulingFormEdit> = ({
       const json = await response.json();
 
       if (json.status !== 200) {
-        throw new Error(json.message || "Erro na operação");
+        return toast.error(json.message);
       }
 
       setSubmitSuccess(true);
