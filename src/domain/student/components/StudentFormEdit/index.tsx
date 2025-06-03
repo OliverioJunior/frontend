@@ -74,7 +74,7 @@ export const StudentFormEdit: React.FC<IStudentForm> = ({
     data.lastName = data.lastName?.trimEnd();
     try {
       const response = await fetch(
-        `http://localhost:3000/students/update/${studentId}`,
+        `${import.meta.env.VITE_API_URL}/students/update/${studentId}`,
         {
           method: "PATCH",
           headers: { "Content-type": "application/json" },

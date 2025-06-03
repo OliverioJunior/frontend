@@ -38,7 +38,7 @@ export const TeacherForm: React.FC<ITeacherForm> = ({ onClose }) => {
   const onSubmit = async (data: TeacherFormData) => {
     data.lastName = data.lastName.trimEnd();
     try {
-      const url = "http://localhost:3000/teachers/create";
+      const url = `${import.meta.env.VITE_API_URL}/teachers/create`;
       const method = "POST";
 
       const response = await fetch(url, {

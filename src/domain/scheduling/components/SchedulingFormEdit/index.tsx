@@ -77,7 +77,7 @@ export const SchedulingFormEdit: React.FC<ISchedulingFormEdit> = ({
     setSubmitSuccess(false);
 
     try {
-      const url = `http://localhost:3000/scheduling/${studentId}`;
+      const url = `${import.meta.env.VITE_API_URL}/scheduling/${studentId}`;
       const method = "PATCH";
 
       const response = await fetch(url, {

@@ -39,7 +39,7 @@ export const TeacherFormEdit: React.FC<ITeacherForm> = ({
 
     try {
       const response = await fetch(
-        `http://localhost:3000/teachers/update/${teacherId}`,
+        `${import.meta.env.VITE_API_URL}/teachers/update/${teacherId}`,
         {
           method: "PATCH",
           headers: { "Content-type": "application/json" },

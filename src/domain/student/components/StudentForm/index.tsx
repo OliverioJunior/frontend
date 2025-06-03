@@ -67,7 +67,7 @@ export const StudentForm: React.FC<IStudentForm> = ({ onClose }) => {
     delete data.logradouro;
     data.lastName = data.lastName.trimEnd();
     try {
-      const url = "http://localhost:3000/students/create";
+      const url = `${import.meta.env.VITE_API_URL}/students/create`;
       const method = "POST";
 
       const response = await fetch(url, {
