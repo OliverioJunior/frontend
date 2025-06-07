@@ -1,1 +1,1 @@
-{ "rewrites": [{ "source": "/(.*)", "destination": "/dashboard" }] }
+{ "rewrites": [{ "source": "/(.*)", "destination": "/" }] }
