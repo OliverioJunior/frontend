@@ -22,7 +22,7 @@ export const TeacherManagementTable = () => {
   const [schedulingsForTeacher, setSchedulingsForTeacher] = useState<
     IScheduling[] | []
   >([]);
-  const handleDeleteTeacher = (id: string) => {
+  const handleDeleteTeacher = async (id: string) => {
     fetch(`${import.meta.env.VITE_API_URL}/teachers/delete/${id}`, {
       method: "DELETE",
     })
@@ -32,6 +32,7 @@ export const TeacherManagementTable = () => {
           toast.error(response.message);
           return;
         }
+        handleSchedulingTeacher(id);
         toast.success(response.message);
         reFetch();
       })
