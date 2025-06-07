@@ -21,27 +21,15 @@ export const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        index: true,
-        element: <Navigate to="/dashboard" replace />,
-      },
-      {
-        path: "/dashboard/students-management",
+        path: "dashboard/students-management",
         element: <ManagementStudents />,
       },
       {
-        index: true,
-        element: <Navigate to="/dashboard" replace />,
-      },
-      {
-        path: "/dashboard/students-scheduling",
+        path: "dashboard/students-scheduling",
         element: <ManagementScheduling />,
       },
       {
-        index: true,
-        element: <Navigate to="/dashboard" replace />,
-      },
-      {
-        path: "/dashboard/teachers-management",
+        path: "dashboard/teachers-management",
         element: <ManagementTeachers />,
       },
     ],
