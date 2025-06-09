@@ -40,11 +40,14 @@ export const SchedulingManagementTable = () => {
 
   return (
     <div className={styles.container}>
-      <StudentScheduleTable
-        schedulings={scheduling}
-        onEdit={(id) => setSchedulingIdToEdit(id)}
-        onCancel={(id) => setSchedulingIdToCancel(id)}
-      />
+      {!scheduling && <p>Carregando...</p>}
+      {scheduling && (
+        <StudentScheduleTable
+          schedulings={scheduling}
+          onEdit={(id) => setSchedulingIdToEdit(id)}
+          onCancel={(id) => setSchedulingIdToCancel(id)}
+        />
+      )}
       {schedulingIdToCancel && (
         <Alert
           action={() => handleCancelScheduling(schedulingIdToCancel)}

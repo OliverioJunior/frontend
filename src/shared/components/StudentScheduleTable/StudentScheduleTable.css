@@ -162,7 +162,15 @@
     background-color: #007bff;
     color: white;
   }
+  .btn-edit:disabled {
+    background-color: #89bdf5;
+    color: white;
+    cursor: not-allowed;
+  }
   
+  .btn-edit:hover:disabled  {
+    background-color: #69829c;
+  }
   .btn-edit:hover {
     background-color: #0056b3;
   }
@@ -171,9 +179,18 @@
     background-color: #dc3545;
     color: white;
   }
+
+  .btn-cancel:disabled {
+    background-color: #c7959a;
+    color: white;
+    cursor: not-allowed;
+  }
   
   .btn-cancel:hover {
     background-color: #c82333;
+  }
+  .btn-cancel:disabled:hover {
+    background-color: #6b595b;
   }
   
   /* Estado vazio */

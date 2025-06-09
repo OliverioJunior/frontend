@@ -84,6 +84,10 @@ export const StudentScheduleTable: React.FC<StudentScheduleTableProps> = ({
                   className="btn btn-edit"
                   onClick={() => onEdit?.(scheduling.id)}
                   type="button"
+                  disabled={
+                    scheduling.status === "cancelado" ||
+                    scheduling.status === "realizado"
+                  }
                 >
                   Editar
                 </button>
@@ -91,6 +95,10 @@ export const StudentScheduleTable: React.FC<StudentScheduleTableProps> = ({
                   className="btn btn-cancel"
                   onClick={() => onCancel?.(scheduling.id)}
                   type="button"
+                  disabled={
+                    scheduling.status === "cancelado" ||
+                    scheduling.status === "realizado"
+                  }
                 >
                   Cancelar
                 </button>
