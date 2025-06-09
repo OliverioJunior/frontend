@@ -9,9 +9,11 @@ import { StudentScheduleTable } from "../../../../shared/components/StudentSched
 import { type IScheduling } from "../../../../hooks/useScheduling";
 import { Modal } from "../../../../shared/components/Modal";
 import { useToastContext } from "../../../../hooks/useToastContext";
+import { useSchedulingContext } from "../../../../hooks/useScheduingContext";
 
 export const TeacherManagementTable = () => {
-  const { teachers, reFetch } = useTeacherContext();
+  const { teachers } = useTeacherContext();
+  const { reFetch: reFetchScheduling } = useSchedulingContext();
   const toast = useToastContext();
   const [searchTerm, setSearchTerm] = useState("");
   const [teacherIdToDelete, setTeacherIdToDelete] = useState<string | null>();
@@ -34,7 +36,6 @@ export const TeacherManagementTable = () => {
         }
         handleSchedulingTeacher(id);
         toast.success(response.message);
-        reFetch();
       })
       .catch((error) => {
         console.log({ error });
@@ -54,7 +55,6 @@ export const TeacherManagementTable = () => {
         const dataJson = await data.json();
         setSchedulingsForTeacher(dataJson.data);
         setTeacherIdToDelete(null);
-        reFetch();
       })
       .catch(() => {
         setTeacherIdToDelete(null);
@@ -75,8 +75,9 @@ export const TeacherManagementTable = () => {
         toast.error(response.message);
         return;
       }
+      handleSchedulingTeacher(teacherIdToSchedulings as string);
       toast.success(response.message);
-      reFetch();
+      reFetchScheduling();
     });
   };
   const filteredTeacher = useMemo(() => {
