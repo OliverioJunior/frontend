@@ -181,6 +181,8 @@ export const TeacherManagementTable = () => {
               schedulings={schedulingsForTeacher as IScheduling[] as []}
               onCancel={(id) => handleCancelScheduling(id)}
               onEdit={() => setTeacherIdSchedulings(null)}
+              loading={loading}
+              error={error}
             />
           }
         />
