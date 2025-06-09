@@ -12,7 +12,7 @@ import { useToastContext } from "../../../../hooks/useToastContext";
 import { useSchedulingContext } from "../../../../hooks/useScheduingContext";
 
 export const TeacherManagementTable = () => {
-  const { teachers } = useTeacherContext();
+  const { teachers, error, loading } = useTeacherContext();
   const { reFetch: reFetchScheduling } = useSchedulingContext();
   const toast = useToastContext();
   const [searchTerm, setSearchTerm] = useState("");
@@ -113,38 +113,42 @@ export const TeacherManagementTable = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredTeacher.map((teacher) => (
-            <tr key={teacher.id}>
-              <td>{`${teacher.firstName} ${teacher.lastName}`}</td>
-              <td>
-                <a>{teacher.expertise}</a>
-              </td>
-              <td>{teacher.status === "active" ? "Ativo" : "Inativo"}</td>
-              <td className={styles.actions}>
-                <Button
-                  className={styles.pageButton}
-                  onClick={() => setTeacherIdToEdit(teacher.id)}
-                >
-                  Editar
-                </Button>
-                <Button
-                  onClick={() => setTeacherIdToDelete(teacher.id)}
-                  className={styles.pageButton}
-                >
-                  Excluir
-                </Button>
-                <Button
-                  className={styles.pageButton}
-                  onClick={() => {
-                    setTeacherIdSchedulings(teacher.id);
-                    handleSchedulingTeacher(teacher.id);
-                  }}
-                >
-                  Visualizar
-                </Button>
-              </td>
-            </tr>
-          ))}
+          {loading && !error && <div>Carregando...</div>}
+          {!loading && error && <div>{error}</div>}
+          {!loading &&
+            filteredTeacher.length > 0 &&
+            filteredTeacher.map((teacher) => (
+              <tr key={teacher.id}>
+                <td>{`${teacher.firstName} ${teacher.lastName}`}</td>
+                <td>
+                  <a>{teacher.expertise}</a>
+                </td>
+                <td>{teacher.status === "active" ? "Ativo" : "Inativo"}</td>
+                <td className={styles.actions}>
+                  <Button
+                    className={styles.pageButton}
+                    onClick={() => setTeacherIdToEdit(teacher.id)}
+                  >
+                    Editar
+                  </Button>
+                  <Button
+                    onClick={() => setTeacherIdToDelete(teacher.id)}
+                    className={styles.pageButton}
+                  >
+                    Excluir
+                  </Button>
+                  <Button
+                    className={styles.pageButton}
+                    onClick={() => {
+                      setTeacherIdSchedulings(teacher.id);
+                      handleSchedulingTeacher(teacher.id);
+                    }}
+                  >
+                    Visualizar
+                  </Button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
       {teacherIdToDelete && (

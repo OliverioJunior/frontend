@@ -6,11 +6,13 @@ interface ITeacherProvider {
 }
 
 export const TeacherProvider: React.FC<ITeacherProvider> = ({ children }) => {
-  const { teachers, reFetch } = useTeachers();
+  const { teachers, reFetch, error, loading } = useTeachers();
 
   const contextValues = {
     teachers,
     reFetch,
+    error,
+    loading,
   };
   return (
     <TeacherContext.Provider value={contextValues}>
