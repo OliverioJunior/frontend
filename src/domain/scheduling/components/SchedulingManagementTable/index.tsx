@@ -8,7 +8,7 @@ import { useToastContext } from "../../../../hooks/useToastContext";
 
 export const SchedulingManagementTable = () => {
   const toast = useToastContext();
-  const { scheduling, reFetch } = useSchedulingContext();
+  const { scheduling, reFetch, error, loading } = useSchedulingContext();
   const [schedulingIdToCancel, setSchedulingIdToCancel] = useState<
     string | null
   >();
@@ -40,8 +40,9 @@ export const SchedulingManagementTable = () => {
 
   return (
     <div className={styles.container}>
-      {!scheduling && <p>Carregando...</p>}
-      {scheduling && (
+      {loading && !error && <p>Carregando...</p>}
+      {error && !loading && <p>{error}</p>}
+      {scheduling.length > 0 && !loading && (
         <StudentScheduleTable
           schedulings={scheduling}
           onEdit={(id) => setSchedulingIdToEdit(id)}

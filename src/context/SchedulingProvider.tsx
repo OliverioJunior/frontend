@@ -8,11 +8,13 @@ interface ISchedulingProvider {
 export const SchedulingProvider: React.FC<ISchedulingProvider> = ({
   children,
 }) => {
-  const { scheduling, reFetch } = useScheduling();
+  const { scheduling, reFetch, error, loading } = useScheduling();
 
   const contextValues = {
     scheduling,
     reFetch,
+    error,
+    loading,
   };
 
   return (

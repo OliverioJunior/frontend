@@ -30,14 +30,6 @@ export const StudentScheduleTable: React.FC<StudentScheduleTableProps> = ({
     }
   };
 
-  if (!schedulings || schedulings.length === 0 || !Array.isArray(schedulings)) {
-    return (
-      <div className="empty-state">
-        <p>Nenhum agendamento encontrado</p>
-      </div>
-    );
-  }
-
   return (
     <div className={`table-container ${className}`}>
       <table className="student-table">
