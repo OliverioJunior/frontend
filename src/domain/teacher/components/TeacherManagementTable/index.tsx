@@ -21,9 +21,16 @@ export const TeacherManagementTable = () => {
   const [teacherIdToSchedulings, setTeacherIdSchedulings] = useState<
     string | null
   >();
-  const [schedulingsForTeacher, setSchedulingsForTeacher] = useState<
-    IScheduling[] | []
-  >([]);
+  const [schedulingsForTeacher, setSchedulingsForTeacher] = useState<{
+    schedulings: IScheduling[] | [];
+    loading: boolean;
+    error: string | null;
+  }>({
+    schedulings: [],
+    loading: false,
+    error: null,
+  });
+
   const handleDeleteTeacher = async (id: string) => {
     fetch(`${import.meta.env.VITE_API_URL}/teachers/delete/${id}`, {
       method: "DELETE",
@@ -44,6 +51,10 @@ export const TeacherManagementTable = () => {
       .finally(() => setTeacherIdToDelete(null));
   };
   const handleSchedulingTeacher = (id: string) => {
+    setSchedulingsForTeacher({
+      ...schedulingsForTeacher,
+      loading: true,
+    });
     if (typeof id === "undefined") id = teacherIdToSchedulings as string;
     fetch(`${import.meta.env.VITE_API_URL}/scheduling/teacher/${id}`, {
       method: "GET",
@@ -53,11 +64,20 @@ export const TeacherManagementTable = () => {
     })
       .then(async (data) => {
         const dataJson = await data.json();
-        setSchedulingsForTeacher(dataJson.data);
+        setSchedulingsForTeacher({
+          ...schedulingsForTeacher,
+          schedulings: dataJson.data,
+          loading: false,
+        });
         setTeacherIdToDelete(null);
       })
       .catch(() => {
         setTeacherIdToDelete(null);
+        setSchedulingsForTeacher({
+          ...schedulingsForTeacher,
+          loading: false,
+          error: "Erro ao buscar agendamentos",
+        });
       });
   };
   const handleCancelScheduling = (id: string) => {
@@ -185,11 +205,14 @@ export const TeacherManagementTable = () => {
           title="Agendamentos"
           content={
             <StudentScheduleTable
-              schedulings={schedulingsForTeacher as IScheduling[] as []}
+              schedulings={
+                schedulingsForTeacher.schedulings as IScheduling[] as []
+              }
               onCancel={(id) => handleCancelScheduling(id)}
               onEdit={() => setTeacherIdSchedulings(null)}
-              loading={loading}
-              error={error}
+              loading={schedulingsForTeacher.loading}
+              error={schedulingsForTeacher.error}
+              message="Nenhum agendamento encontrado"
             />
           }
         />

@@ -6,6 +6,7 @@ interface StudentScheduleTableProps {
   schedulings?: IScheduling[];
   onEdit?: (id: string) => void;
   onCancel?: (id: string) => void;
+  message?: string;
   className?: string;
   loading: boolean;
   error: string | null;
@@ -15,6 +16,7 @@ export const StudentScheduleTable: React.FC<StudentScheduleTableProps> = ({
   schedulings,
   onEdit,
   onCancel,
+  message,
   className = "",
   error,
   loading,
@@ -121,7 +123,7 @@ export const StudentScheduleTable: React.FC<StudentScheduleTableProps> = ({
             !loading &&
             error === null && (
               <tr>
-                <td colSpan={4}>Nenhum estudante encontrado</td>
+                <td colSpan={4}>{message || "Nenhum estudante encontrado"}</td>
               </tr>
             )}
         </tbody>
