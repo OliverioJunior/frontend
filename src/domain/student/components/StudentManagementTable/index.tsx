@@ -162,15 +162,14 @@ const StudentRow = ({
 
 // Componente para estados de loading/empty
 interface TableStateProps {
-  hasStudents: boolean;
   loading: boolean;
   error: string | null;
 }
 
-const TableState = ({ hasStudents, loading, error }: TableStateProps) => {
+const TableState = ({ loading, error }: TableStateProps) => {
   if (loading) return <div>Carregando...</div>;
   if (error) return <div>Erro: {error}</div>;
-  if (!hasStudents && !loading) return <div>Nenhum estudante encontrado</div>;
+
   return null;
 };
 
@@ -263,11 +262,7 @@ export const StudentManagementTable = () => {
           </tbody>
         </table>
 
-        <TableState
-          loading={loading}
-          error={error}
-          hasStudents={students.length > 0}
-        />
+        <TableState loading={loading} error={error} />
       </div>
 
       {/* Modais */}

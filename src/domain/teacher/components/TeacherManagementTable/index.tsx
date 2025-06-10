@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import styles from "./TeacherManagementTable.module.css";
 import { Button } from "../../../../shared/components/Button";
 import { Alert } from "../../../../shared/components/Alert";
@@ -81,26 +81,33 @@ export const TeacherManagementTable = () => {
     });
   };
   const filteredTeacher = useMemo(() => {
+    if (!searchTerm.trim()) return teachers;
     const lowerSearch = searchTerm.toLowerCase();
     return teachers.filter((teacher) => {
-      return (
-        teacher.firstName.toLowerCase().includes(lowerSearch) ||
-        teacher.lastName.toLowerCase().includes(lowerSearch) ||
-        teacher.expertise.toLowerCase().includes(lowerSearch) ||
-        teacher.status.toLowerCase().includes(lowerSearch)
-      );
+      const searchFields = [
+        teacher.firstName,
+        teacher.lastName,
+        teacher.status,
+        teacher.expertise,
+      ].map((field) => field || "".toLowerCase());
+      return searchFields.some((field) => field.includes(lowerSearch));
     });
   }, [teachers, searchTerm]);
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-  };
+  const handleSearch = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchTerm(event.target.value);
+    },
+    []
+  );
   return (
     <div className={styles.container}>
       <input
         type="search"
-        aria-label="Pesquisar estudantes"
+        aria-label="Pesquisar professores"
         onChange={handleSearch}
+        value={searchTerm}
+        placeholder="Pesquisar professores..."
       />
 
       <table className={styles.studentTable}>
@@ -135,7 +142,7 @@ export const TeacherManagementTable = () => {
                     onClick={() => setTeacherIdToDelete(teacher.id)}
                     className={styles.pageButton}
                   >
-                    Excluir
+                    Desativar
                   </Button>
                   <Button
                     className={styles.pageButton}
@@ -187,7 +194,9 @@ export const TeacherManagementTable = () => {
           }
         />
       )}
-      {!filteredTeacher.length && <div>Nenhum professor encontrado</div>}
+      {!filteredTeacher.length && !loading && error === null && (
+        <div>Nenhum professor encontrado</div>
+      )}
     </div>
   );
 };

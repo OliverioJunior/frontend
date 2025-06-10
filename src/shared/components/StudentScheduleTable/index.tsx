@@ -12,7 +12,7 @@ interface StudentScheduleTableProps {
 }
 
 export const StudentScheduleTable: React.FC<StudentScheduleTableProps> = ({
-  schedulings = [],
+  schedulings,
   onEdit,
   onCancel,
   className = "",
@@ -51,12 +51,15 @@ export const StudentScheduleTable: React.FC<StudentScheduleTableProps> = ({
               <td colSpan={4}>Carregando...</td>
             </tr>
           )}
-          {!loading && error && (
-            <tr>
-              <td colSpan={4}>Ocorreu um erro: {error}</td>
-            </tr>
-          )}
-          {schedulings.length > 0 &&
+          {!loading &&
+            error &&
+            error !== "signal is aborted without reason" && (
+              <tr>
+                <td colSpan={4}>Ocorreu um erro: {error}</td>
+              </tr>
+            )}
+          {schedulings &&
+            schedulings.length > 0 &&
             !loading &&
             schedulings.map((scheduling) => (
               <tr
@@ -113,11 +116,14 @@ export const StudentScheduleTable: React.FC<StudentScheduleTableProps> = ({
                 </td>
               </tr>
             ))}
-          {schedulings.length === 0 && !loading && !error && (
-            <tr>
-              <td colSpan={4}>Nenhum agendamento encontrado</td>
-            </tr>
-          )}
+          {schedulings &&
+            schedulings.length === 0 &&
+            !loading &&
+            error === null && (
+              <tr>
+                <td colSpan={4}>Nenhum estudante encontrado</td>
+              </tr>
+            )}
         </tbody>
       </table>
     </div>

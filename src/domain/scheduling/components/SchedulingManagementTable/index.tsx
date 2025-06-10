@@ -40,7 +40,7 @@ export const SchedulingManagementTable = () => {
 
   return (
     <div className={styles.container}>
-      {scheduling.length > 0 && !loading && (
+      {
         <StudentScheduleTable
           schedulings={scheduling}
           onEdit={(id) => setSchedulingIdToEdit(id)}
@@ -48,7 +48,7 @@ export const SchedulingManagementTable = () => {
           error={error}
           loading={loading}
         />
-      )}
+      }
       {schedulingIdToCancel && (
         <Alert
           action={() => handleCancelScheduling(schedulingIdToCancel)}
