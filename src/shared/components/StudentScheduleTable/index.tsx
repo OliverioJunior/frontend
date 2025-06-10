@@ -10,6 +10,7 @@ interface StudentScheduleTableProps {
   className?: string;
   loading: boolean;
   error: string | null;
+  teacherView?: boolean;
 }
 
 export const StudentScheduleTable: React.FC<StudentScheduleTableProps> = ({
@@ -20,6 +21,7 @@ export const StudentScheduleTable: React.FC<StudentScheduleTableProps> = ({
   className = "",
   error,
   loading,
+  teacherView,
 }) => {
   const getStatusBadge = (status: string): React.ReactElement => {
     const statusClass = `status-badge status-${status
@@ -93,17 +95,20 @@ export const StudentScheduleTable: React.FC<StudentScheduleTableProps> = ({
                   </div>
                 </td>
                 <td className="actions-cell">
-                  <button
-                    className="btn btn-edit"
-                    onClick={() => onEdit?.(scheduling.id)}
-                    type="button"
-                    disabled={
-                      scheduling.status === "cancelado" ||
-                      scheduling.status === "realizado"
-                    }
-                  >
-                    Editar
-                  </button>
+                  {!teacherView && (
+                    <button
+                      className="btn btn-edit"
+                      onClick={() => onEdit?.(scheduling.id)}
+                      type="button"
+                      disabled={
+                        scheduling.status === "cancelado" ||
+                        scheduling.status === "realizado"
+                      }
+                    >
+                      Editar
+                    </button>
+                  )}
+
                   <button
                     className="btn btn-cancel"
                     onClick={() => onCancel?.(scheduling.id)}

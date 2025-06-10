@@ -47,7 +47,7 @@ export const Header = () => {
                       className={styles.dropdownLink}
                       onClick={() => setUserMenuOpen(!isUserMenuOpen)}
                     >
-                      Sair
+                      Modo teste
                     </button>
                   </li>
                 </ul>

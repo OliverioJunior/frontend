@@ -279,7 +279,9 @@ export const StudentManagementTable = () => {
       {modalState.editId && (
         <StudentFormModal
           onClose={closeModals}
-          title="Editar estudante"
+          title={`Editar o estudante ${
+            students.find((s) => s.id === modalState.editId)?.firstName
+          }`}
           isOpen={true}
           type="edit"
           studentId={modalState.editId}

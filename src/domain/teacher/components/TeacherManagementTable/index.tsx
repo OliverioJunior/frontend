@@ -182,7 +182,7 @@ export const TeacherManagementTable = () => {
         <Alert
           action={() => handleDeleteTeacher(teacherIdToDelete)}
           isOpen={!!teacherIdToDelete}
-          message={`Deseja realmente deletar ${
+          message={`Deseja realmente desativar ${
             teachers.find((s) => s.id === teacherIdToDelete)?.firstName
           } do sistema?`}
           onClose={() => setTeacherIdToDelete(null)}
@@ -192,7 +192,9 @@ export const TeacherManagementTable = () => {
       {teacherIdToEdit && (
         <TeacherFormModal
           onClose={() => setTeacherIdToEdit(null)}
-          title="Editar professor"
+          title={`Editar o professor ${
+            teachers.find((s) => s.id === teacherIdToEdit)?.firstName
+          }`}
           isOpen={!!teacherIdToEdit}
           type="edit"
           teacherId={teacherIdToEdit}
@@ -213,6 +215,7 @@ export const TeacherManagementTable = () => {
               loading={schedulingsForTeacher.loading}
               error={schedulingsForTeacher.error}
               message="Nenhum agendamento encontrado"
+              teacherView={true}
             />
           }
         />
