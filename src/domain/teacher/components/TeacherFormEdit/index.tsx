@@ -139,7 +139,7 @@ export const TeacherFormEdit: React.FC<ITeacherForm> = ({
       )}
 
       <Button type="submit" variant="primary">
-        Salvard
+        Salvar
       </Button>
     </form>
   );

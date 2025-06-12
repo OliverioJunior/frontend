@@ -42,12 +42,12 @@ export const RouteActions = ({
       return (
         <>
           <Button variant="secondary" onClick={openModal}>
-            Agendar
+            Criar Agendamento
           </Button>
           <SchedulingFormModal
             isOpen={isOpen}
             onClose={onClosed}
-            title={"Agendar"}
+            title={"Novo Agendamento"}
             type="create"
           />
         </>
@@ -57,7 +57,7 @@ export const RouteActions = ({
       return (
         <>
           <Button variant="secondary" onClick={openModal}>
-            Criar professores
+            Criar Professor
           </Button>
           <TeacherFormModal
             isOpen={isOpen}

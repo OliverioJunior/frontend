@@ -14,7 +14,7 @@ export function Dashboard() {
         to="/dashboard/students-scheduling"
       />
       <Management
-        title="Gestão de Professores"
+        title="Gestão de professores"
         description="Visualize e gerencie os professores"
         to="/dashboard/teachers-management"
       />

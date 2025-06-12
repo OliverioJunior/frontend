@@ -6,7 +6,7 @@ export const getRouteTitle = (path: string) => {
       .find((segment) => segment !== "dashboard") ?? "";
 
   const routeTitles = {
-    "students-management": "Gestão de Estudantes",
+    "students-management": "Estudantes",
     "students-scheduling": "Agendamentos",
     "teachers-management": "Professores",
     "teachers-scheduling": "Agendamentos",

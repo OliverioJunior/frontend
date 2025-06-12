@@ -293,8 +293,7 @@ export const StudentManagementTable = () => {
           onClose={closeModals}
           title="Criar Agendamento"
           isOpen={true}
-          type="edit"
-          schedulingId={modalState.scheduleId}
+          type="create"
         />
       )}
     </div>
