@@ -4,6 +4,12 @@ import { SchedulingFormEdit } from "../SchedulingFormEdit";
 
 interface ISchedulingFormModalBase extends IModalProps {
   type: "create" | "edit";
+  initialData?: {
+    content: string;
+    studentId: string;
+    dateTime: string;
+    teacherId: string;
+  };
 }
 
 type TSchedulingFormModalProps =
@@ -15,6 +21,7 @@ export const SchedulingFormModal = ({
   onClose,
   title,
   type,
+  initialData,
   ...props
 }: TSchedulingFormModalProps) => {
   const renderFormComponent = () => {
@@ -22,11 +29,15 @@ export const SchedulingFormModal = ({
       type === "edit" && "schedulingId" in props;
     if (conditionToRenderEditForm) {
       return (
-        <SchedulingFormEdit onClose={onClose} studentId={props.schedulingId} />
+        <SchedulingFormEdit
+          onClose={onClose}
+          studentId={props.schedulingId}
+          initialData={initialData}
+        />
       );
     }
 
-    return <SchedulingForm onClose={onClose} />;
+    return <SchedulingForm onClose={onClose} initialData={initialData} />;
   };
 
   return (

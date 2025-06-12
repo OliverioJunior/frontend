@@ -294,6 +294,12 @@ export const StudentManagementTable = () => {
           title="Criar Agendamento"
           isOpen={true}
           type="create"
+          initialData={{
+            studentId: modalState.scheduleId,
+            content: "",
+            dateTime: "",
+            teacherId: "",
+          }}
         />
       )}
     </div>
