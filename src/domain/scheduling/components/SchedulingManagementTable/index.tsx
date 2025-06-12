@@ -5,6 +5,7 @@ import { SchedulingFormModal } from "../SchedulingFormModal";
 import { useSchedulingContext } from "../../../../hooks/useScheduingContext";
 import { StudentScheduleTable } from "../../../../shared/components/StudentScheduleTable";
 import { useToastContext } from "../../../../hooks/useToastContext";
+import type { IScheduling } from "../../../../hooks/useScheduling";
 
 export const SchedulingManagementTable = () => {
   const toast = useToastContext();
@@ -12,7 +13,8 @@ export const SchedulingManagementTable = () => {
   const [schedulingIdToCancel, setSchedulingIdToCancel] = useState<
     string | null
   >();
-  const [schedulingIdToEdit, setSchedulingIdToEdit] = useState<string | null>();
+  const [schedulingIdToEdit, setSchedulingIdToEdit] =
+    useState<Partial<IScheduling> | null>();
   const handleCancelScheduling = (id: string) => {
     fetch(`${import.meta.env.VITE_API_URL}/scheduling/${id}`, {
       method: "PATCH",
@@ -43,7 +45,7 @@ export const SchedulingManagementTable = () => {
       {
         <StudentScheduleTable
           schedulings={scheduling}
-          onEdit={(id) => setSchedulingIdToEdit(id)}
+          onEdit={(data) => setSchedulingIdToEdit(data)}
           onCancel={(id) => setSchedulingIdToCancel(id)}
           error={error}
           loading={loading}
@@ -70,7 +72,7 @@ export const SchedulingManagementTable = () => {
           title="Editar Agendamento"
           isOpen={!!schedulingIdToEdit}
           type="edit"
-          schedulingId={schedulingIdToEdit}
+          initialData={schedulingIdToEdit}
         />
       )}
     </div>

@@ -26,15 +26,18 @@ import {
 import styles from "./scheduling-form.module.css";
 import { ErrorMessage } from "../../../../shared/components/ErrorMessage";
 import { LoadingSpinner } from "../../../../shared/components/LoadingSpinner";
+import { StatusCode } from "../../../../entidades/statusCode.enum";
 
 interface ISchedulingForm {
   onClose: () => void;
   initialData?: Partial<SchedulingFormData>;
+  type: "create" | "edit";
 }
 
 export const SchedulingForm: React.FC<ISchedulingForm> = ({
   onClose,
   initialData,
+  type,
 }) => {
   const { reFetch } = useSchedulingContext();
   const toast = useToastContext();
@@ -68,16 +71,20 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
   const selectedDateTime = watch("dateTime");
   const isLoading = teachersLoading || studentsLoading;
   const hasErrors = teachersError || studentsError;
-
+  const conditionsToCreateOrEdit = type === "create";
   const onSubmit = async (data: SchedulingFormData) => {
     setIsSubmitting(true);
     setSubmitError(null);
     setSubmitSuccess(false);
 
     try {
-      const url = `${import.meta.env.VITE_API_URL}/scheduling`;
-      const method = "POST";
-
+      const urlToCreate = `${import.meta.env.VITE_API_URL}/scheduling`;
+      const urlToEdit = `${import.meta.env.VITE_API_URL}/scheduling/${
+        initialData?.studentId
+      }`;
+      const url = conditionsToCreateOrEdit ? urlToCreate : urlToEdit;
+      const method = conditionsToCreateOrEdit ? "POST" : "PATCH";
+      console.log({ data, selectedDateTime });
       const response = await fetch(url, {
         method,
         headers: {
@@ -89,16 +96,17 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
 
       const json = await response.json();
 
-      if (json.status !== 201) {
+      if (json.status !== StatusCode.CREATED && json.status !== StatusCode.OK) {
         toast.error(json.message);
         return;
       }
       setSubmitSuccess(true);
-      toast.success("Agendamento criado com sucesso");
-
+      toast.success(
+        conditionsToCreateOrEdit
+          ? "Agendamento criado com sucesso!"
+          : "Agendamento atualizado com sucesso!"
+      );
       reFetch();
-
-      onClose();
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Erro desconhecido";
@@ -107,6 +115,7 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
       toast.error(errorMessage, "Erro na operação");
       console.error("Scheduling error:", error);
     } finally {
+      onClose();
       setIsSubmitting(false);
     }
   };
@@ -182,7 +191,9 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
         <div className={styles.header}>
           <h2 id="form-title" className={styles.title}>
             <Calendar size={24} />
-            {"Novo Agendamento"}
+            {conditionsToCreateOrEdit
+              ? "Novo Agendamento"
+              : "Editar Agendamento"}
           </h2>
           <button
             onClick={handleClose}
@@ -194,7 +205,11 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
           </button>
         </div>
 
-        {submitSuccess && <div>{`Agendamento ${"criado"} com sucesso!`}</div>}
+        {submitSuccess && (
+          <div>{`Agendamento ${
+            conditionsToCreateOrEdit ? "criado" : "editado"
+          } com sucesso!`}</div>
+        )}
 
         {submitError && (
           <ErrorMessage
@@ -377,7 +392,7 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
             >
               (
               <Save size={16} />
-              {"Salvar"})
+              {conditionsToCreateOrEdit ? "Salvar" : "Atualizar"})
             </Button>
           </div>
         </form>

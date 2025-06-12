@@ -4,7 +4,7 @@ import type { IScheduling } from "../../../hooks/useScheduling";
 
 interface StudentScheduleTableProps {
   schedulings?: IScheduling[];
-  onEdit?: (id: string) => void;
+  onEdit?: (data: IScheduling) => void;
   onCancel?: (id: string) => void;
   message?: string;
   className?: string;
@@ -98,7 +98,7 @@ export const StudentScheduleTable: React.FC<StudentScheduleTableProps> = ({
                   {!teacherView && (
                     <button
                       className="btn btn-edit"
-                      onClick={() => onEdit?.(scheduling.id)}
+                      onClick={() => onEdit?.(scheduling)}
                       type="button"
                       disabled={
                         scheduling.status === "cancelado" ||
