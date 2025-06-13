@@ -45,7 +45,6 @@ export const TeacherManagementTable = () => {
         toast.success(response.message);
       })
       .catch((error) => {
-        console.log({ error });
         if (error instanceof Error) toast.error(error.message, "Error");
       })
       .finally(() => setTeacherIdToDelete(null));

@@ -34,7 +34,6 @@ export const TeacherFormEdit: React.FC<ITeacherForm> = ({
   });
 
   const onSubmit = async (data: TeacherEditFormData) => {
-    console.log({ data });
     data.lastName = data.lastName?.trimEnd();
 
     try {
@@ -128,7 +127,6 @@ export const TeacherFormEdit: React.FC<ITeacherForm> = ({
             ]}
             onChange={(e) => {
               const valor = e.id;
-              console.log({ valor });
               field.onChange(valor);
             }}
           />

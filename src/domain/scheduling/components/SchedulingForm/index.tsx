@@ -21,6 +21,8 @@ import { useStudents } from "../../../../hooks/useStudents";
 import { useToastContext } from "../../../../hooks/useToastContext";
 import {
   baseSchedulingSchema,
+  editSchedulingSchema,
+  type SchedulingEditFormData,
   type SchedulingFormData,
 } from "./schedulingSchemas";
 import styles from "./scheduling-form.module.css";
@@ -51,28 +53,45 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
     loading: studentsLoading,
     error: studentsError,
   } = useStudents();
-
+  const isCreating = type === "create";
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
-  const {
-    control,
-    handleSubmit,
-    watch,
-    reset,
-    formState: { errors, isValid, isDirty },
-  } = useForm<SchedulingFormData>({
+  // configurações para "create"
+  const createForm = useForm<SchedulingFormData>({
     resolver: zodResolver(baseSchedulingSchema),
-    defaultValues: initialData || {},
+    defaultValues: {
+      dateTime: initialData?.dateTime || "",
+      teacherId: initialData?.teacherId || "",
+      studentId: initialData?.studentId || "",
+      content: initialData?.content || "",
+    },
     mode: "onChange",
   });
 
-  const selectedDateTime = watch("dateTime");
+  // configurações para "edit"
+  const editForm = useForm<SchedulingEditFormData>({
+    resolver: zodResolver(editSchedulingSchema),
+    defaultValues: {
+      dateTime: initialData?.dateTime || "",
+      teacherId: initialData?.teacherId || "",
+      studentId: initialData?.studentId || "",
+      content: initialData?.content || "",
+      status: (initialData as SchedulingEditFormData)?.status || "agendado",
+    },
+    mode: "onChange",
+  });
+
+  const selectedDateTime = isCreating
+    ? createForm.watch("dateTime")
+    : editForm.watch("dateTime");
   const isLoading = teachersLoading || studentsLoading;
   const hasErrors = teachersError || studentsError;
-  const conditionsToCreateOrEdit = type === "create";
-  const onSubmit = async (data: SchedulingFormData) => {
+
+  const onSubmit = async (
+    data: SchedulingFormData | SchedulingEditFormData
+  ) => {
     setIsSubmitting(true);
     setSubmitError(null);
     setSubmitSuccess(false);
@@ -80,11 +99,10 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
     try {
       const urlToCreate = `${import.meta.env.VITE_API_URL}/scheduling`;
       const urlToEdit = `${import.meta.env.VITE_API_URL}/scheduling/${
-        initialData?.studentId
+        initialData?.id
       }`;
-      const url = conditionsToCreateOrEdit ? urlToCreate : urlToEdit;
-      const method = conditionsToCreateOrEdit ? "POST" : "PATCH";
-      console.log({ data, selectedDateTime });
+      const url = isCreating ? urlToCreate : urlToEdit;
+      const method = isCreating ? "POST" : "PATCH";
       const response = await fetch(url, {
         method,
         headers: {
@@ -102,7 +120,7 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
       }
       setSubmitSuccess(true);
       toast.success(
-        conditionsToCreateOrEdit
+        isCreating
           ? "Agendamento criado com sucesso!"
           : "Agendamento atualizado com sucesso!"
       );
@@ -113,7 +131,6 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
 
       setSubmitError(errorMessage);
       toast.error(errorMessage, "Erro na operação");
-      console.error("Scheduling error:", error);
     } finally {
       onClose();
       setIsSubmitting(false);
@@ -121,6 +138,10 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
   };
 
   const handleClose = () => {
+    const isDirty = isCreating
+      ? createForm.formState.isDirty
+      : editForm.formState.isDirty;
+
     if (isDirty && !submitSuccess) {
       const shouldClose = window.confirm(
         "Você tem alterações não salvas. Deseja realmente fechar?"
@@ -131,7 +152,11 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
   };
 
   const handleReset = () => {
-    reset();
+    if (isCreating) {
+      createForm.reset();
+    } else {
+      editForm.reset();
+    }
     setSubmitError(null);
     setSubmitSuccess(false);
   };
@@ -175,6 +200,253 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
     );
   }
 
+  // Renderizar formulário de criação
+  if (isCreating) {
+    return (
+      <div
+        className={styles.overlay}
+        onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            handleClose();
+          }
+        }}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="form-title"
+      >
+        <div className={styles.container}>
+          <div className={styles.header}>
+            <h2 id="form-title" className={styles.title}>
+              <Calendar size={24} />
+              Novo Agendamento
+            </h2>
+            <button
+              onClick={handleClose}
+              className={styles.closeButton}
+              aria-label="Fechar formulário"
+              disabled={isSubmitting}
+            >
+              <X size={20} />
+            </button>
+          </div>
+
+          {submitSuccess && <div>Agendamento criado com sucesso!</div>}
+
+          {submitError && (
+            <ErrorMessage
+              message={submitError}
+              onDismiss={() => setSubmitError(null)}
+            />
+          )}
+
+          <form
+            onSubmit={createForm.handleSubmit(onSubmit)}
+            className={styles.form}
+            noValidate
+          >
+            {/* Data e Hora */}
+            <div className={styles.fieldGroup}>
+              <label className={styles.fieldLabel}>
+                <Calendar size={16} />
+                Data e Horário *
+              </label>
+              <Controller
+                name="dateTime"
+                control={createForm.control}
+                render={({ field }) => (
+                  <div className={styles.calendarWrapper}>
+                    <BusinessCalendar
+                      onDateTimeSelect={(dateTime) => {
+                        field.onChange(dateTime.toISOString());
+                      }}
+                      selectedDateTime={
+                        field.value ? new Date(field.value) : null
+                      }
+                      minAdvanceHours={24}
+                    />
+                    {selectedDateTime && (
+                      <div className={styles.selectedDateTimeDisplay}>
+                        <strong>Selecionado:</strong>{" "}
+                        {new Date(selectedDateTime).toLocaleString("pt-BR", {
+                          weekday: "long",
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </div>
+                    )}
+                  </div>
+                )}
+              />
+              {createForm.formState.errors.dateTime && (
+                <ErrorMessage
+                  message={
+                    createForm.formState.errors.dateTime.message as string
+                  }
+                  size="small"
+                />
+              )}
+            </div>
+
+            {/* Professor */}
+            <div className={styles.fieldGroup}>
+              <label htmlFor="teacher-select" className={styles.fieldLabel}>
+                <GraduationCap size={16} />
+                Professor *
+              </label>
+              <Controller
+                name="teacherId"
+                control={createForm.control}
+                render={({ field }) => (
+                  <Select
+                    options={teachers}
+                    onChange={(option) => field.onChange(option?.id)}
+                    value={field.value}
+                    placeholder="Selecione um professor"
+                    aria-describedby={
+                      createForm.formState.errors.teacherId
+                        ? "teacher-error"
+                        : undefined
+                    }
+                  />
+                )}
+              />
+              {createForm.formState.errors.teacherId && (
+                <ErrorMessage
+                  id="teacher-error"
+                  message={
+                    createForm.formState.errors.teacherId.message as string
+                  }
+                  size="small"
+                />
+              )}
+            </div>
+
+            {/* Estudante */}
+            <div className={styles.fieldGroup}>
+              <label htmlFor="student-select" className={styles.fieldLabel}>
+                <User size={16} />
+                Estudante *
+              </label>
+              <Controller
+                name="studentId"
+                control={createForm.control}
+                render={({ field }) => (
+                  <Select
+                    options={students}
+                    onChange={(option) => field.onChange(option?.id)}
+                    value={field.value}
+                    placeholder="Selecione um estudante"
+                    aria-describedby={
+                      createForm.formState.errors.studentId
+                        ? "student-error"
+                        : undefined
+                    }
+                  />
+                )}
+              />
+              {createForm.formState.errors.studentId && (
+                <ErrorMessage
+                  id="student-error"
+                  message={
+                    createForm.formState.errors.studentId.message as string
+                  }
+                  size="small"
+                />
+              )}
+            </div>
+
+            {/* Conteúdo */}
+            <div className={styles.fieldGroup}>
+              <label htmlFor="content-input" className={styles.fieldLabel}>
+                <FileText size={16} />
+                Conteúdo da Aula *
+              </label>
+              <Controller
+                name="content"
+                control={createForm.control}
+                render={({ field }) => (
+                  <Input
+                    id="content-input"
+                    placeholder="Descreva o conteúdo que será abordado na aula"
+                    type="text"
+                    value={field.value || ""}
+                    onChange={(e) => field.onChange(e.target.value)}
+                    variant={
+                      createForm.formState.errors.content ? "error" : "terciary"
+                    }
+                    disabled={isSubmitting}
+                    aria-describedby={
+                      createForm.formState.errors.content
+                        ? "content-error"
+                        : "content-help"
+                    }
+                    maxLength={500}
+                  />
+                )}
+              />
+              <div id="content-help" className={styles.fieldHint}>
+                Máximo 500 caracteres
+              </div>
+              {createForm.formState.errors.content && (
+                <ErrorMessage
+                  id="content-error"
+                  message={
+                    createForm.formState.errors.content.message as string
+                  }
+                  size="small"
+                />
+              )}
+            </div>
+
+            {/* Ações */}
+            <div className={styles.actions}>
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={handleReset}
+                disabled={isSubmitting || !createForm.formState.isDirty}
+              >
+                Limpar
+              </Button>
+
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={handleClose}
+                disabled={isSubmitting}
+              >
+                Cancelar
+              </Button>
+
+              <Button
+                type="submit"
+                variant="primary"
+                disabled={isSubmitting || !createForm.formState.isValid}
+                className={styles.submitButton}
+              >
+                <Save size={16} />
+                Salvar
+              </Button>
+            </div>
+          </form>
+
+          {/* Informações de ajuda */}
+          <div className={styles.helpInfo}>
+            <AlertCircle size={16} />
+            <span>
+              Campos marcados com * são obrigatórios. O agendamento deve ser
+              feito com pelo menos 24 horas de antecedência.
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Renderizar formulário de edição
   return (
     <div
       className={styles.overlay}
@@ -191,9 +463,7 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
         <div className={styles.header}>
           <h2 id="form-title" className={styles.title}>
             <Calendar size={24} />
-            {conditionsToCreateOrEdit
-              ? "Novo Agendamento"
-              : "Editar Agendamento"}
+            Editar Agendamento
           </h2>
           <button
             onClick={handleClose}
@@ -205,11 +475,7 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
           </button>
         </div>
 
-        {submitSuccess && (
-          <div>{`Agendamento ${
-            conditionsToCreateOrEdit ? "criado" : "editado"
-          } com sucesso!`}</div>
-        )}
+        {submitSuccess && <div>Agendamento editado com sucesso!</div>}
 
         {submitError && (
           <ErrorMessage
@@ -219,7 +485,7 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
         )}
 
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={editForm.handleSubmit(onSubmit)}
           className={styles.form}
           noValidate
         >
@@ -231,7 +497,7 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
             </label>
             <Controller
               name="dateTime"
-              control={control}
+              control={editForm.control}
               render={({ field }) => (
                 <div className={styles.calendarWrapper}>
                   <BusinessCalendar
@@ -241,7 +507,7 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
                     selectedDateTime={
                       field.value ? new Date(field.value) : null
                     }
-                    minAdvanceHours={24} // Mínimo 24 horas de antecedência
+                    minAdvanceHours={24}
                   />
                   {selectedDateTime && (
                     <div className={styles.selectedDateTimeDisplay}>
@@ -259,9 +525,9 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
                 </div>
               )}
             />
-            {errors.dateTime && (
+            {editForm.formState.errors.dateTime && (
               <ErrorMessage
-                message={errors.dateTime.message as string}
+                message={editForm.formState.errors.dateTime.message as string}
                 size="small"
               />
             )}
@@ -275,7 +541,7 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
             </label>
             <Controller
               name="teacherId"
-              control={control}
+              control={editForm.control}
               render={({ field }) => (
                 <Select
                   options={teachers}
@@ -283,15 +549,17 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
                   value={field.value}
                   placeholder="Selecione um professor"
                   aria-describedby={
-                    errors.teacherId ? "teacher-error" : undefined
+                    editForm.formState.errors.teacherId
+                      ? "teacher-error"
+                      : undefined
                   }
                 />
               )}
             />
-            {errors.teacherId && (
+            {editForm.formState.errors.teacherId && (
               <ErrorMessage
                 id="teacher-error"
-                message={errors.teacherId.message as string}
+                message={editForm.formState.errors.teacherId.message as string}
                 size="small"
               />
             )}
@@ -305,7 +573,7 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
             </label>
             <Controller
               name="studentId"
-              control={control}
+              control={editForm.control}
               render={({ field }) => (
                 <Select
                   options={students}
@@ -313,15 +581,49 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
                   value={field.value}
                   placeholder="Selecione um estudante"
                   aria-describedby={
-                    errors.studentId ? "student-error" : undefined
+                    editForm.formState.errors.studentId
+                      ? "student-error"
+                      : undefined
                   }
                 />
               )}
             />
-            {errors.studentId && (
+            {editForm.formState.errors.studentId && (
               <ErrorMessage
                 id="student-error"
-                message={errors.studentId.message as string}
+                message={editForm.formState.errors.studentId.message as string}
+                size="small"
+              />
+            )}
+          </div>
+
+          {/* Status */}
+          <div className={styles.fieldGroup}>
+            <label htmlFor="status-select" className={styles.fieldLabel}>
+              <FileText size={16} />
+              Status *
+            </label>
+            <Controller
+              name="status"
+              control={editForm.control}
+              render={({ field }) => (
+                <Select
+                  placeholder="Selecione um status"
+                  options={[
+                    { id: "realizado", firstName: "Realizado", lastName: "" },
+                    { id: "agendado", firstName: "Agendado", lastName: "" },
+                    { id: "cancelado", firstName: "Cancelado", lastName: "" },
+                  ]}
+                  onChange={(option) => {
+                    field.onChange(option?.id);
+                  }}
+                  value={field.value}
+                />
+              )}
+            />
+            {editForm.formState.errors.status && (
+              <ErrorMessage
+                message={editForm.formState.errors.status.message as string}
                 size="small"
               />
             )}
@@ -335,7 +637,7 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
             </label>
             <Controller
               name="content"
-              control={control}
+              control={editForm.control}
               render={({ field }) => (
                 <Input
                   id="content-input"
@@ -343,10 +645,14 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
                   type="text"
                   value={field.value || ""}
                   onChange={(e) => field.onChange(e.target.value)}
-                  variant={errors.content ? "error" : "terciary"}
+                  variant={
+                    editForm.formState.errors.content ? "error" : "terciary"
+                  }
                   disabled={isSubmitting}
                   aria-describedby={
-                    errors.content ? "content-error" : "content-help"
+                    editForm.formState.errors.content
+                      ? "content-error"
+                      : "content-help"
                   }
                   maxLength={500}
                 />
@@ -355,10 +661,10 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
             <div id="content-help" className={styles.fieldHint}>
               Máximo 500 caracteres
             </div>
-            {errors.content && (
+            {editForm.formState.errors.content && (
               <ErrorMessage
                 id="content-error"
-                message={errors.content.message as string}
+                message={editForm.formState.errors.content.message as string}
                 size="small"
               />
             )}
@@ -370,7 +676,7 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
               type="button"
               variant="secondary"
               onClick={handleReset}
-              disabled={isSubmitting || !isDirty}
+              disabled={isSubmitting || !editForm.formState.isDirty}
             >
               Limpar
             </Button>
@@ -387,12 +693,11 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
             <Button
               type="submit"
               variant="primary"
-              disabled={isSubmitting || !isValid}
+              disabled={isSubmitting || !editForm.formState.isValid}
               className={styles.submitButton}
             >
-              (
               <Save size={16} />
-              {conditionsToCreateOrEdit ? "Salvar" : "Atualizar"})
+              Atualizar
             </Button>
           </div>
         </form>
