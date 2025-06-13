@@ -6,6 +6,7 @@ import { PiGraduationCapLight } from "react-icons/pi";
 import { useRouteInfo } from "../../../hooks/useRouteInfo";
 import { getRouteTitle } from "./utils";
 import { RouteActions } from "./components/RouteActions/RouteActions";
+import { Button } from "../Button";
 
 export const Header = () => {
   const { key } = useRouteInfo();
@@ -31,24 +32,25 @@ export const Header = () => {
 
         <div className={styles.userSection}>
           <div className={styles.userMenuWrapper}>
-            <button
+            <Button
+              variant={"ghost"}
               className={styles.userButton}
               onClick={() => setUserMenuOpen(!isUserMenuOpen)}
             >
               <FiUser className={styles.userIcon} />
-            </button>
+            </Button>
 
             {isUserMenuOpen && (
               <div className={styles.userDropdown}>
                 <ul className={styles.dropdownList}>
                   <li className={styles.dropdownItem}>Meu Perfil</li>
                   <li className={styles.dropdownItem}>
-                    <button
+                    <Button
                       className={styles.dropdownLink}
                       onClick={() => setUserMenuOpen(!isUserMenuOpen)}
                     >
                       Modo teste
-                    </button>
+                    </Button>
                   </li>
                 </ul>
               </div>

@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import styles from "./select.module.css";
+import { Button } from "../Button";
 
 // Definindo os tipos TypeScript
 interface Option {
@@ -80,7 +81,7 @@ export const Select = ({
 
   return (
     <div className={`${styles.select} ${className}`} ref={selectRef}>
-      <button
+      <Button
         type="button"
         className={`${styles.selectButton} ${
           isOpen ? styles.selectButtonFocused : ""
@@ -99,7 +100,7 @@ export const Select = ({
           size={20}
           className={`${styles.chevron} ${isOpen ? styles.chevronRotated : ""}`}
         />
-      </button>
+      </Button>
 
       {isOpen && (
         <div className={styles.dropdown}>

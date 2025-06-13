@@ -6,6 +6,8 @@ export interface IModalProps {
 }
 import { useEffect, useRef } from "react";
 import styles from "./module.module.css";
+import { X } from "lucide-react";
+import { Button } from "../Button";
 export const Modal = ({ isOpen, title, onClose, content }: IModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -35,10 +37,10 @@ export const Modal = ({ isOpen, title, onClose, content }: IModalProps) => {
         aria-modal="true"
       >
         <div className={styles.modalHeader}>
-          <h2>{title}</h2>
-          <button className={styles.closeButton} onClick={onClose}>
-            X
-          </button>
+          <h2 className={styles.title}>{title}</h2>
+          <Button className={styles.closeButton} onClick={onClose}>
+            <X />
+          </Button>
         </div>
         {content}
       </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { AlertCircle, X } from "lucide-react";
 import styles from "./styles.module.css";
+import { Button } from "../Button";
 
 interface ErrorMessageProps {
   message: string;
@@ -35,14 +36,14 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
         <span className={styles.message}>{message}</span>
       </div>
       {onDismiss && (
-        <button
+        <Button
           onClick={onDismiss}
           className={styles.dismissButton}
           aria-label="Fechar mensagem de erro"
           type="button"
         >
           <X size={16} />
-        </button>
+        </Button>
       )}
     </div>
   );

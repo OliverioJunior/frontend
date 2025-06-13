@@ -1,6 +1,7 @@
 import React from "react";
 import "./StudentScheduleTable.css";
 import type { IScheduling } from "../../../hooks/useScheduling";
+import { Button } from "../Button";
 
 interface StudentScheduleTableProps {
   schedulings?: IScheduling[];
@@ -96,7 +97,7 @@ export const StudentScheduleTable: React.FC<StudentScheduleTableProps> = ({
                 </td>
                 <td className="actions-cell">
                   {!teacherView && (
-                    <button
+                    <Button
                       className="btn btn-edit"
                       onClick={() => onEdit?.(scheduling)}
                       type="button"
@@ -106,10 +107,10 @@ export const StudentScheduleTable: React.FC<StudentScheduleTableProps> = ({
                       }
                     >
                       Editar
-                    </button>
+                    </Button>
                   )}
 
-                  <button
+                  <Button
                     className="btn btn-cancel"
                     onClick={() => onCancel?.(scheduling.id)}
                     type="button"
@@ -119,7 +120,7 @@ export const StudentScheduleTable: React.FC<StudentScheduleTableProps> = ({
                     }
                   >
                     Cancelar
-                  </button>
+                  </Button>
                 </td>
               </tr>
             ))}

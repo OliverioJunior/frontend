@@ -5,7 +5,7 @@ export const Layout = () => {
   return (
     <>
       <Header />
-      <main style={{ marginTop: "80px", padding: "20px" }}>
+      <main style={{ marginTop: "80px" }}>
         <Outlet />
       </main>
     </>

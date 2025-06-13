@@ -103,12 +103,9 @@ export const TeacherManagementTable = () => {
     if (!searchTerm.trim()) return teachers;
     const lowerSearch = searchTerm.toLowerCase();
     return teachers.filter((teacher) => {
-      const searchFields = [
-        teacher.firstName,
-        teacher.lastName,
-        teacher.status,
-        teacher.expertise,
-      ].map((field) => field || "".toLowerCase());
+      const searchFields = [teacher.firstName, teacher.lastName].map((field) =>
+        field.toLowerCase()
+      );
       return searchFields.some((field) => field.includes(lowerSearch));
     });
   }, [teachers, searchTerm]);
@@ -127,6 +124,7 @@ export const TeacherManagementTable = () => {
         onChange={handleSearch}
         value={searchTerm}
         placeholder="Pesquisar professores..."
+        className={styles.searchInput}
       />
 
       <table className={styles.studentTable}>
@@ -139,8 +137,16 @@ export const TeacherManagementTable = () => {
           </tr>
         </thead>
         <tbody>
-          {loading && !error && <div>Carregando...</div>}
-          {!loading && error && <div>{error}</div>}
+          {loading && !error && (
+            <tr>
+              <td colSpan={4}>Carregando...</td>
+            </tr>
+          )}
+          {!loading && error && (
+            <tr>
+              <td colSpan={4}>{error}</td>
+            </tr>
+          )}
           {!loading &&
             filteredTeacher.length > 0 &&
             filteredTeacher.map((teacher) => (

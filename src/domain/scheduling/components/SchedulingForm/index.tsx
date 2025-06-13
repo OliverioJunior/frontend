@@ -182,13 +182,13 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
       >
         <div className={styles.header}>
           <h2>Erro ao Carregar</h2>
-          <button
+          <Button
             onClick={onClose}
             className={styles.closeButton}
             aria-label="Fechar formulário"
           >
             <X size={20} />
-          </button>
+          </Button>
         </div>
         <ErrorMessage message="Não foi possível carregar os dados necessários. Tente novamente." />
         <div className={styles.actions}>
@@ -220,14 +220,14 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
               <Calendar size={24} />
               Novo Agendamento
             </h2>
-            <button
+            <Button
               onClick={handleClose}
               className={styles.closeButton}
               aria-label="Fechar formulário"
               disabled={isSubmitting}
             >
               <X size={20} />
-            </button>
+            </Button>
           </div>
 
           {submitSuccess && <div>Agendamento criado com sucesso!</div>}

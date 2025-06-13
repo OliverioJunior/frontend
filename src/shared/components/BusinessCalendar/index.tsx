@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { Calendar, Clock, ChevronLeft, ChevronRight } from "lucide-react";
 import styles from "./styles.module.css";
+import { Button } from "../Button";
 
 interface CalendarDay {
   date: Date;
@@ -260,28 +261,28 @@ export const BusinessCalendar: React.FC<BusinessCalendarProps> = ({
     <div className={`${styles.container} ${className}`}>
       {/* Header */}
       <div className={styles.header}>
-        <button
+        <Button
           className={styles.navButton}
           onClick={handlePreviousMonth}
           type="button"
           aria-label="Mês anterior"
         >
           <ChevronLeft size={20} />
-        </button>
+        </Button>
 
         <div className={styles.headerTitle}>
           <Calendar size={20} />
           {MONTH_NAMES_PT[currentDate.getMonth()]} {currentDate.getFullYear()}
         </div>
 
-        <button
+        <Button
           className={styles.navButton}
           onClick={handleNextMonth}
           type="button"
           aria-label="Próximo mês"
         >
           <ChevronRight size={20} />
-        </button>
+        </Button>
       </div>
 
       {/* Calendar Grid */}
@@ -332,7 +333,7 @@ export const BusinessCalendar: React.FC<BusinessCalendarProps> = ({
                 const isSelected = selectedTime === time;
 
                 return (
-                  <button
+                  <Button
                     key={time}
                     className={`${styles.timeSlot} ${
                       isSelected ? styles.timeSlotSelected : ""
@@ -343,7 +344,7 @@ export const BusinessCalendar: React.FC<BusinessCalendarProps> = ({
                     aria-label={`Horário ${time}`}
                   >
                     {time}
-                  </button>
+                  </Button>
                 );
               })}
             </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./toast.module.css";
+import { Button } from "../Button";
 
 export type ToastType = "success" | "error" | "warning" | "info";
 
@@ -159,13 +160,13 @@ const Toast: React.FC<ToastProps> = ({ toast, onClose }) => {
         <div className={styles.toastMessage}>{toast.message}</div>
       </div>
 
-      <button
+      <Button
         onClick={handleClose}
         className={styles.closeButton}
         aria-label="Fechar notificação"
       >
         X
-      </button>
+      </Button>
 
       {toast.autoClose && (
         <div className={styles.progressBar} style={{ width: `${progress}%` }} />

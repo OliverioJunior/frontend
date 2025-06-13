@@ -1,68 +1,531 @@
+/* StudentManagementTable.module.css - Versão Profissional */
+
+/* ===== CONTAINER PRINCIPAL ===== */
 .container {
-    font-family: 'Arial', sans-serif;
-    max-width: var(--max-width);
-    padding: 20px;
-    background-color: #fff;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--xl) var(--container-padding);
+  background-color: var(--background);
+  min-height: 100vh;
+  font-family: var(--font-family-base);
+}
+
+/* ===== SEÇÃO DE BUSCA ===== */
+.searchContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: var(--xl);
+}
+
+.searchWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 28rem; /* 448px */
+}
+
+.searchIcon {
+  position: absolute;
+  left: var(--md);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--font-lighter);
+  width: 1.25rem;
+  height: 1.25rem;
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  padding: var(--md) var(--lg) var(--md) 2.75rem; /* 44px left padding for icon */
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  font-size: var(--text-base);
+  font-family: var(--font-family-base);
+  background-color: var(--background-secondary);
+  color: var(--font);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+}
+
+.searchInput:hover {
+  border-color: var(--font-lighter);
+  box-shadow: var(--shadow);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--brandeis-blue);
+  box-shadow: 0 0 0 3px var(--brandeis-blue-light), var(--shadow-lg);
+  transform: translateY(-1px);
+}
+
+.searchInput::placeholder {
+  color: var(--font-lighter);
+  font-weight: 400;
+}
+
+/* ===== CONTAINER DA TABELA ===== */
+.tableContainer {
+  background-color: var(--background-secondary);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  transition: box-shadow var(--transition-base);
+}
+
+.tableContainer:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* ===== TABELA PRINCIPAL ===== */
+.studentTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-base);
+  background-color: var(--background-secondary);
+}
+
+/* ===== CABEÇALHO DA TABELA ===== */
+.studentTable thead {
+  background: linear-gradient(135deg, var(--brandeis-blue), var(--brandeis-blue-hover));
+  position: relative;
+}
+
+.studentTable thead::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--brandeis-blue), var(--mauve));
+}
+
+.studentTable th {
+  padding: var(--lg) var(--xl);
+  text-align: left;
+  font-weight: 600;
+  font-size: var(--text-sm);
+  color: var(--background-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  position: relative;
+  border: none;
+}
+
+.studentTable th:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 25%;
+  bottom: 25%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ===== CORPO DA TABELA ===== */
+.studentTable tbody tr {
+  transition: all var(--transition-fast);
+  position: relative;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.studentTable tbody tr:hover {
+  background-color: var(--brandeis-blue-light);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.studentTable tbody tr:last-child {
+  border-bottom: none;
+}
+
+.studentTable td {
+  padding: var(--lg) var(--xl);
+  color: var(--font);
+  font-size: var(--text-sm);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* ===== LINKS DO WHATSAPP ===== */
+.whatsappLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--xs);
+  color: var(--brandeis-blue);
+  text-decoration: none;
+  font-weight: 500;
+  padding: var(--xs) var(--sm);
+  border-radius: var(--border-radius);
+  transition: all var(--transition-fast);
+  background-color: transparent;
+}
+
+.whatsappLink:hover {
+  background-color: var(--brandeis-blue-light);
+  color: var(--brandeis-blue-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.whatsappLink:focus {
+  outline: 2px solid var(--brandeis-blue);
+  outline-offset: 2px;
+}
+
+.whatsappIcon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+/* ===== AÇÕES DA TABELA ===== */
+.actions {
+  display: flex;
+  gap: var(--sm);
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* ===== BOTÕES DE AÇÃO ===== */
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--xs);
+  padding: var(--xs) var(--md);
+  border: 2px solid;
+  border-radius: var(--border-radius);
+  background-color: var(--background-secondary);
+  cursor: pointer;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  font-family: var(--font-family-base);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  transition: all var(--transition-base);
+  min-width: 4.5rem; /* 72px */
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.actionButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left var(--transition-slow);
+}
+
+.actionButton:hover::before {
+  left: 100%;
+}
+
+.actionButton:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.actionButton:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.actionButton:focus {
+  outline: 2px solid;
+  outline-offset: 2px;
+}
+
+.actionButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.actionButton:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Variantes dos botões */
+.actionButton.edit {
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.actionButton.edit:hover {
+  background-color: var(--success);
+  color: var(--background-secondary);
+  border-color: var(--success);
+}
+
+.actionButton.edit:focus {
+  outline-color: var(--success);
+}
+
+.actionButton.delete {
+  border-color: var(--error);
+  color: var(--error);
+}
+
+.actionButton.delete:hover {
+  background-color: var(--error);
+  color: var(--background-secondary);
+  border-color: var(--error);
+}
+
+.actionButton.delete:focus {
+  outline-color: var(--error);
+}
+
+.actionButton.schedule {
+  border-color: var(--mauve);
+  color: var(--mauve);
+}
+
+.actionButton.schedule:hover {
+  background-color: var(--mauve);
+  color: var(--background-secondary);
+  border-color: var(--mauve);
+}
+
+.actionButton.schedule:focus {
+  outline-color: var(--mauve);
+}
+
+/* ===== ÍCONES DOS BOTÕES ===== */
+.buttonIcon {
+  width: 0.875rem; /* 14px */
+  height: 0.875rem;
+  flex-shrink: 0;
+}
+
+/* ===== ESTADOS DA TABELA ===== */
+.tableState {
+  padding: var(--xxl);
+  text-align: center;
+  color: var(--font-light);
+  font-size: var(--text-lg);
+  background-color: var(--background-secondary);
+}
+
+/* Loading State */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--md);
+}
+
+.loadingSpinner {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 2px solid var(--border-color);
+  border-top-color: var(--brandeis-blue);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loadingText {
+  color: var(--font-light);
+  font-size: var(--text-sm);
+}
+
+/* Empty State */
+.emptyState {
+  padding: var(--xxl);
+  text-align: center;
+  color: var(--font-light);
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: var(--md);
+  opacity: 0.4;
+  display: block;
+}
+
+.emptyTitle {
+  font-size: var(--text-lg);
+  font-weight: 500;
+  color: var(--font);
+  margin-bottom: var(--sm);
+}
+
+.emptyDescription {
+  font-size: var(--text-sm);
+  color: var(--font-light);
+  max-width: 20rem;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Error State */
+.error {
+  color: var(--error);
+  font-weight: 500;
+}
+
+/* ===== RODAPÉ INFORMATIVO ===== */
+.tableFooter {
+  margin-top: var(--lg);
+  text-align: center;
+  color: var(--font-light);
+  font-size: var(--text-sm);
+}
+
+/* ===== ANIMAÇÕES ===== */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===== RESPONSIVIDADE ===== */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .container {
+    padding: var(--lg) var(--container-padding-sm);
   }
   
-  .templates {
-    color: #666;
-    margin-bottom: 15px;
-    font-size: 0.9em;
+  .searchContainer {
+    margin-bottom: var(--lg);
   }
   
-  .studentTable {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  .searchWrapper {
+    max-width: none;
   }
   
   .studentTable th,
   .studentTable td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #dddddd;
+    padding: var(--md) var(--sm);
+    font-size: var(--text-sm);
   }
   
-  .studentTable th {
-    background-color: #f8f9fa;
-    font-weight: 600;
-    color: #2c3e50;
-  }
-  
-  .studentTable tr:hover {
-    background-color: #f5f5f5;
-  }
   .actions {
-    display: flex;
-    gap: 10px;
-   }
-  .pageButton {
-    background: none;
-    border: 1px solid #3498db;
-    color: #3498db;
-    padding: 6px 12px;
-    margin: 0 5px 5px 0;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.85em;
-    transition: all 0.3s ease;
+    flex-direction: column;
+    gap: var(--xs);
+    align-items: stretch;
   }
   
-  .pageButton:hover {
-    background-color: #3498db;
-    color: white;
+  .actionButton {
+    font-size: var(--text-xs);
+    padding: var(--xs) var(--sm);
+    min-width: auto;
   }
   
-  .visionSection {
-    margin-top: 25px;
-    padding-top: 15px;
-    border-top: 2px solid #ecf0f1;
+  .tableContainer {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
   
-  .visionSection h3 {
-    color: #2c3e50;
-    margin: 0;
-    font-size: 1.2em;
+  .studentTable {
+    min-width: 600px;
   }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .container {
+    padding: var(--md) var(--container-padding);
+  }
+  
+  .searchInput {
+    font-size: var(--text-sm);
+    padding: var(--sm) var(--md) var(--sm) 2.5rem;
+  }
+  
+  .searchIcon {
+    left: var(--sm);
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  .studentTable th,
+  .studentTable td {
+    padding: var(--sm);
+    font-size: var(--text-xs);
+  }
+  
+  .actionButton {
+    font-size: 10px;
+    padding: 4px 8px;
+    min-width: 3rem;
+  }
+  
+  .buttonIcon {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+  
+  .whatsappIcon {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+}
+
+/* ===== ACESSIBILIDADE ===== */
+
+/* Redução de movimento */
+@media (prefers-reduced-motion: reduce) {
+  .studentTable tbody tr,
+  .actionButton,
+  .searchInput,
+  .tableContainer,
+  .whatsappLink {
+    transition: none;
+  }
+  
+  .actionButton:hover,
+  .studentTable tbody tr:hover {
+    transform: none;
+  }
+  
+  .loadingSpinner {
+    animation: none;
+  }
+  
+  .actionButton::before {
+    display: none;
+  }
+}
+
+/* Alto contraste */
+@media (prefers-contrast: high) {
+  .studentTable th {
+    background: var(--font);
+    color: var(--background-secondary);
+  }
+  
+  .actionButton {
+    border-width: 2px;
+    font-weight: 700;
+  }
+  
+  .searchInput {
+    border-width: 2px;
+  }
+  
+  .whatsappLink {
+    font-weight: 600;
+  }
+}
+
+/* Focus states aprimorados */
+@media (forced-colors: active) {
+  .actionButton:focus,
+  .searchInput:focus,
+  .whatsappLink:focus {
+    outline: 2px solid ButtonText;
+    outline-offset: 2px;
+  }
+}
