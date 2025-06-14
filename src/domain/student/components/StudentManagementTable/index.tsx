@@ -1,4 +1,4 @@
-import { Suspense, useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback } from "react";
 import styles from "./StudentManagementTable.module.css";
 import { Button } from "../../../../shared/components/Button";
 import { Alert } from "../../../../shared/components/Alert";
@@ -7,6 +7,7 @@ import { StudentFormModal } from "../StudentFormModal";
 import { SchedulingFormModal } from "../../../scheduling/components/SchedulingFormModal";
 import { useToastContext } from "../../../../hooks/useToastContext";
 import type { IStudent } from "../../../../hooks/useStudents";
+import { Table } from "../../../../shared/components/Table";
 
 interface ModalState {
   deleteId: string | null;
@@ -98,6 +99,7 @@ const StudentActions = ({
 }: StudentActionsProps) => (
   <td className={styles.actions}>
     <Button
+      size="medium"
       className={styles.pageButton}
       onClick={() => onEdit(student.id)}
       aria-label={`Editar estudante ${student.firstName}`}
@@ -158,19 +160,6 @@ const StudentRow = ({
       />
     </tr>
   );
-};
-
-// Componente para estados de loading/empty
-interface TableStateProps {
-  loading: boolean;
-  error: string | null;
-}
-
-const TableState = ({ loading, error }: TableStateProps) => {
-  if (loading) return <div>Carregando...</div>;
-  if (error) return <div>Erro: {error}</div>;
-
-  return null;
 };
 
 export const StudentManagementTable = () => {
@@ -237,33 +226,26 @@ export const StudentManagementTable = () => {
           className={styles.searchInput}
         />
       </div>
-
-      <div className={styles.tableContainer}>
-        <table className={styles.studentTable}>
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>WhatsApp</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            <Suspense>
-              {filteredStudents.map((student) => (
-                <StudentRow
-                  key={student.id}
-                  student={student}
-                  onEdit={openEditModal}
-                  onDelete={openDeleteModal}
-                  onSchedule={openScheduleModal}
-                />
-              ))}
-            </Suspense>
-          </tbody>
-        </table>
-
-        <TableState loading={loading} error={error} />
-      </div>
+      <Table
+        loading={loading}
+        error={error}
+        TableHeader={
+          <>
+            <th>Nome</th>
+            <th>WhatsApp</th>
+            <th>Ações</th>
+          </>
+        }
+        TableBody={filteredStudents.map((student) => (
+          <StudentRow
+            key={student.id}
+            student={student}
+            onEdit={openEditModal}
+            onDelete={openDeleteModal}
+            onSchedule={openScheduleModal}
+          />
+        ))}
+      />
 
       {/* Modais */}
       {modalState.deleteId && studentToDelete && (

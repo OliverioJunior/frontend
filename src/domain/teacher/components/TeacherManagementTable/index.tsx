@@ -10,6 +10,7 @@ import { type IScheduling } from "../../../../hooks/useScheduling";
 import { Modal } from "../../../../shared/components/Modal";
 import { useToastContext } from "../../../../hooks/useToastContext";
 import { useSchedulingContext } from "../../../../hooks/useScheduingContext";
+import { Table } from "../../../../shared/components/Table";
 
 export const TeacherManagementTable = () => {
   const { teachers, error, loading } = useTeacherContext();
@@ -126,63 +127,51 @@ export const TeacherManagementTable = () => {
         placeholder="Pesquisar professores..."
         className={styles.searchInput}
       />
-
-      <table className={styles.studentTable}>
-        <thead>
-          <tr>
+      <Table
+        loading={loading}
+        error={error}
+        TableHeader={
+          <>
             <th>Nome</th>
             <th>Especialidade</th>
             <th>Status</th>
             <th>Ações</th>
+          </>
+        }
+        TableBody={filteredTeacher.map((teacher) => (
+          <tr key={teacher.id}>
+            <td>{`${teacher.firstName} ${teacher.lastName}`}</td>
+            <td>
+              <a>{teacher.expertise}</a>
+            </td>
+            <td>{teacher.status === "active" ? "Ativo" : "Inativo"}</td>
+            <td className={styles.actions}>
+              <Button
+                className={styles.pageButton}
+                onClick={() => setTeacherIdToEdit(teacher.id)}
+              >
+                Editar
+              </Button>
+              <Button
+                onClick={() => setTeacherIdToDelete(teacher.id)}
+                className={styles.pageButton}
+              >
+                Desativar
+              </Button>
+              <Button
+                className={styles.pageButton}
+                onClick={() => {
+                  setTeacherIdSchedulings(teacher.id);
+                  handleSchedulingTeacher(teacher.id);
+                }}
+              >
+                Visualizar
+              </Button>
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          {loading && !error && (
-            <tr>
-              <td colSpan={4}>Carregando...</td>
-            </tr>
-          )}
-          {!loading && error && (
-            <tr>
-              <td colSpan={4}>{error}</td>
-            </tr>
-          )}
-          {!loading &&
-            filteredTeacher.length > 0 &&
-            filteredTeacher.map((teacher) => (
-              <tr key={teacher.id}>
-                <td>{`${teacher.firstName} ${teacher.lastName}`}</td>
-                <td>
-                  <a>{teacher.expertise}</a>
-                </td>
-                <td>{teacher.status === "active" ? "Ativo" : "Inativo"}</td>
-                <td className={styles.actions}>
-                  <Button
-                    className={styles.pageButton}
-                    onClick={() => setTeacherIdToEdit(teacher.id)}
-                  >
-                    Editar
-                  </Button>
-                  <Button
-                    onClick={() => setTeacherIdToDelete(teacher.id)}
-                    className={styles.pageButton}
-                  >
-                    Desativar
-                  </Button>
-                  <Button
-                    className={styles.pageButton}
-                    onClick={() => {
-                      setTeacherIdSchedulings(teacher.id);
-                      handleSchedulingTeacher(teacher.id);
-                    }}
-                  >
-                    Visualizar
-                  </Button>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
+        ))}
+      />
+
       {teacherIdToDelete && (
         <Alert
           action={() => handleDeleteTeacher(teacherIdToDelete)}

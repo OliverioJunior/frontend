@@ -5,13 +5,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
   min-height: 2.5rem;
-  padding: var(--sm) var(--md);
   border: 1px solid transparent;
   border-radius: var(--border-radius);
-  background-color: var(--brandeis-blue);
-  color: var(--background-secondary);
   font-family: var(--font-family-base);
   font-size: var(--text-sm);
   font-weight: 500;
@@ -78,7 +74,7 @@
 /* Botão Ghost */
 .ghost {
   background-color: transparent;
-  border: 1px solid var(--brandeis-blue);
+  border: none;
   color: var(--brandeis-blue);
   box-shadow: none;
 }
@@ -303,30 +299,6 @@
   }
 }
 
-/* Botão com ícone */
-.withIcon {
-  gap: var(--xs);
-}
-
-.iconOnly {
-  padding: var(--sm);
-  aspect-ratio: 1;
-}
-
-.iconOnly.small {
-  padding: var(--xs);
-}
-
-.iconOnly.large {
-  padding: var(--md);
-}
-
-.iconOnly.extraLarge {
-  padding: var(--lg);
-}
-
-/* Media Queries - Mobile First */
-
 /* Smartphone pequeno */
 @media (max-width: 375px) {
   .buttonBase {
@@ -349,17 +321,6 @@
   }
 }
 
-/* Tablet */
-@media (min-width: 768px) {
-  .buttonBase {
-    font-size: var(--text-base);
-    padding: var(--md) var(--lg);
-  }
-  
-  .fitContent {
-    min-width: 120px;
-  }
-}
 
 /* Desktop */
 @media (min-width: 1024px) {

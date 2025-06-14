@@ -26,7 +26,7 @@ export const RouteActions = ({
     case "students-management":
       return (
         <>
-          <Button variant="secondary" onClick={openModal}>
+          <Button size="small" variant="secondary" onClick={openModal}>
             Criar Estudante
           </Button>
           <StudentFormModal

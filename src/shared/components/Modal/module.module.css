@@ -35,7 +35,7 @@
   justify-content: space-between;
   padding: var(--lg) var(--xl);
   border-bottom: 1px solid var(--border-color);
-  background-color: var(--background-secondary);
+  
 }
 
 .title {
@@ -46,35 +46,7 @@
   line-height: 1.4;
 }
 
-.closeButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  padding: 0;
-  border: none;
-  border-radius: var(--border-radius);
-  background-color: transparent;
-  color: var(--font-light);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
 
-.closeButton:hover {
-  background-color: var(--error-light);
-  color: var(--error);
-  transform: scale(1.05);
-}
-
-.closeButton:focus {
-  outline: 2px solid var(--brandeis-blue);
-  outline-offset: 2px;
-}
-
-.closeButton:active {
-  transform: scale(0.95);
-}
 
 /* Animações */
 @keyframes modalOverlayFadeIn {

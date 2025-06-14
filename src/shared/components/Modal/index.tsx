@@ -38,7 +38,7 @@ export const Modal = ({ isOpen, title, onClose, content }: IModalProps) => {
       >
         <div className={styles.modalHeader}>
           <h2 className={styles.title}>{title}</h2>
-          <Button className={styles.closeButton} onClick={onClose}>
+          <Button size="small" variant="ghost" onClick={onClose}>
             <X />
           </Button>
         </div>
