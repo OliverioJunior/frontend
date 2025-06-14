@@ -12,16 +12,16 @@ export const Modal = ({ isOpen, title, onClose, content }: IModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!isOpen) return;
-    if (!isOpen) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
     };
-
+    document.body.style.overflow = "hidden";
     document.addEventListener("keydown", handleKeyDown);
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "auto";
     };
   }, [isOpen, onClose]);
   if (!isOpen) return null;

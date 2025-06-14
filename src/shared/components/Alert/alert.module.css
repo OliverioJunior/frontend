@@ -1,16 +1,105 @@
 .content {
   display: grid;
-  gap: 2rem;
+  place-items: center;
+  gap: var(--xl);
+  padding: var(--md);
 }
+
 .message {
-  margin-top: 1rem;
-  color: rgb(71, 69, 69)
+  color: var(--font-light);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  margin: 0;
+  text-align: center;
+  
+  /* Melhor legibilidade */
+  letter-spacing: 0.01em;
 }
 
 .actions {
   display: flex;
-  gap: 2rem;
+  width: 100%;
+  gap: var(--md);
   align-items: center;
-  justify-content: space-between;
-  padding: 0 1rem;
+  justify-content: center;
+  padding: var(--md) 0 0 0;
+}
+
+.buttonAction {
+  width: 100%;
+ 
+}
+
+
+/* Melhorias para tablets */
+@media (min-width: 768px) {
+  .content {
+    gap: var(--xxl);
+    padding: var(--lg) 0;
+  }
+  
+  .actions {
+    gap: var(--lg);
+    padding: var(--lg) var(--lg) 0 var(--lg);
+    
+  }
+  
+  .message {
+    font-size: var(--text-lg);
+  }
+}
+/* Melhorias para desktop */
+@media (min-width: 1024px) {
+  .actions {
+    padding: 0 var(--xl);
+  }
+}
+
+
+
+
+/* Landscape em dispositivos móveis */
+@media (max-height: 480px) and (orientation: landscape) {
+  .content {
+    gap: var(--md);
+    padding: var(--xs) 0;
+  }
+  
+  .actions {
+    flex-direction: row;
+    gap: var(--sm);
+    padding: var(--xs) 0 0 0;
+  }
+}
+/* Otimizações para dispositivos pequenos */
+@media (max-width: 375px) {
+  .content {
+    gap: var(--lg);
+    padding: var(--sm) 0;
+  }
+  
+  .actions {
+    flex-direction: column;
+    gap: var(--sm);
+    padding: var(--sm) 0 0 0;
+  }
+  
+  .message {
+    font-size: var(--text-sm);
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .message {
+    color: var(--font);
+    font-weight: 500;
+  }
+}
+
+/* Redução de movimento para acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+  .actions {
+    transition: none;
+  }
 }

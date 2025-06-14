@@ -67,6 +67,7 @@ export const TeacherForm: React.FC<ITeacherForm> = ({ onClose }) => {
         render={({ field }) => (
           <Input
             placeholder="CPF"
+            label="Cpf do professor"
             value={formatarInput(field.value, formatarCPF)}
             onChange={(e) => {
               const valor = e.target.value.replace(/\D/g, "");
@@ -119,6 +120,7 @@ export const TeacherForm: React.FC<ITeacherForm> = ({ onClose }) => {
         control={control}
         render={({ field }) => (
           <Input
+            label="Data de Nascimento"
             placeholder="Data de Nascimento"
             type="date"
             value={field.value || ""}

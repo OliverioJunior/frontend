@@ -26,10 +26,16 @@ export const Alert: React.FC<IAlert> = ({
         <div className={styles.content}>
           <p className={styles.message}>{message}</p>
           <div className={styles.actions}>
-            <Button variant="secondary" onClick={action}>
+            <Button
+              className={styles.buttonAction}
+              variant="outline"
+              onClick={action}
+            >
               Sim
             </Button>
-            <Button onClick={onClose}>Não</Button>
+            <Button className={styles.buttonAction} onClick={onClose}>
+              Não
+            </Button>
           </div>
         </div>
       }
