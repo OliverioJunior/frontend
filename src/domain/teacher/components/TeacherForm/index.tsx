@@ -84,6 +84,7 @@ export const TeacherForm: React.FC<ITeacherForm> = ({ onClose }) => {
         control={control}
         render={({ field }) => (
           <Input
+            label="Nome"
             placeholder="Nome"
             value={field.value || ""}
             onChange={(e) => {
@@ -102,6 +103,7 @@ export const TeacherForm: React.FC<ITeacherForm> = ({ onClose }) => {
         control={control}
         render={({ field }) => (
           <Input
+            label="Sobrenome"
             placeholder="Sobrenome"
             value={field.value || ""}
             onChange={(e) => {

@@ -113,6 +113,7 @@ export const StudentFormEdit: React.FC<IStudentForm> = ({
         control={control}
         render={({ field }) => (
           <Input
+            label="Nome"
             placeholder="Nome"
             value={field.value || ""}
             onChange={(e) => {
@@ -131,6 +132,7 @@ export const StudentFormEdit: React.FC<IStudentForm> = ({
         control={control}
         render={({ field }) => (
           <Input
+            label="Sobrenome"
             placeholder="Sobrenome"
             value={field.value || ""}
             onChange={(e) => {
@@ -149,6 +151,7 @@ export const StudentFormEdit: React.FC<IStudentForm> = ({
         control={control}
         render={({ field }) => (
           <Input
+            label="Data de Nascimento"
             placeholder="Data de Nascimento"
             type="date"
             value={field.value || ""}
@@ -171,6 +174,7 @@ export const StudentFormEdit: React.FC<IStudentForm> = ({
         control={control}
         render={({ field }) => (
           <Input
+            label="CEP"
             placeholder="CEP"
             value={formatarInput(field.value || "", formatarCEP)}
             onChange={(e) => {
@@ -187,6 +191,7 @@ export const StudentFormEdit: React.FC<IStudentForm> = ({
         control={control}
         render={({ field }) => (
           <Input
+            label="Numero"
             placeholder="Numero"
             value={field.value || ""}
             onChange={(e) => {
@@ -205,6 +210,7 @@ export const StudentFormEdit: React.FC<IStudentForm> = ({
         control={control}
         render={({ field }) => (
           <Input
+            label="Bairro"
             placeholder="Bairro"
             value={field.value || ""}
             onChange={(e) => {
@@ -221,6 +227,7 @@ export const StudentFormEdit: React.FC<IStudentForm> = ({
         control={control}
         render={({ field }) => (
           <Input
+            label="Logradouro"
             placeholder="Logradouro"
             value={field.value || ""}
             onChange={(e) => {
@@ -237,6 +244,7 @@ export const StudentFormEdit: React.FC<IStudentForm> = ({
         control={control}
         render={({ field }) => (
           <Input
+            label="Estado"
             placeholder="Estado"
             value={field.value || ""}
             onChange={(e) => {
@@ -253,6 +261,7 @@ export const StudentFormEdit: React.FC<IStudentForm> = ({
         control={control}
         render={({ field }) => (
           <Input
+            label="Cidade"
             placeholder="Cidade"
             value={field.value || ""}
             onChange={(e) => {
@@ -271,6 +280,7 @@ export const StudentFormEdit: React.FC<IStudentForm> = ({
         control={control}
         render={({ field }) => (
           <Input
+            label="Telefone"
             placeholder="Telefone"
             value={field.value || ""}
             onChange={(e) => {
@@ -289,6 +299,7 @@ export const StudentFormEdit: React.FC<IStudentForm> = ({
         control={control}
         render={({ field }) => (
           <Input
+            label="Whatsapp"
             placeholder="Whatsapp"
             value={field.value || ""}
             onChange={(e) => {
@@ -307,7 +318,8 @@ export const StudentFormEdit: React.FC<IStudentForm> = ({
         control={control}
         render={({ field }) => (
           <Input
-            placeholder="email"
+            label="Email"
+            placeholder="Email"
             value={field.value || ""}
             onChange={(e) => {
               const valor = e.target.value.trim();
