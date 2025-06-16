@@ -5,6 +5,9 @@ export interface IStudent {
   firstName: string;
   lastName: string;
   email: string;
+  cep: string;
+  number: string;
+  birthDate: string;
   address: string;
   phone: string;
   whatsapp: string;

@@ -11,7 +11,7 @@ import { Table } from "../../../../shared/components/Table";
 
 interface ModalState {
   deleteId: string | null;
-  editId: string | null;
+  editId: IStudent | null;
   scheduleId: string | null;
 }
 
@@ -27,8 +27,8 @@ const useModalState = () => {
     setModalState((prev) => ({ ...prev, deleteId: id }));
   }, []);
 
-  const openEditModal = useCallback((id: string) => {
-    setModalState((prev) => ({ ...prev, editId: id }));
+  const openEditModal = useCallback((studentData: IStudent) => {
+    setModalState((prev) => ({ ...prev, editId: studentData }));
   }, []);
 
   const openScheduleModal = useCallback((id: string) => {
@@ -86,7 +86,7 @@ const useStudentOperations = () => {
 // Componente para renderizar as ações da tabela
 interface StudentActionsProps {
   student: IStudent;
-  onEdit: (id: string) => void;
+  onEdit: (studentData: IStudent) => void;
   onDelete: (id: string) => void;
   onSchedule: (id: string) => void;
 }
@@ -101,7 +101,7 @@ const StudentActions = ({
     <Button
       size="medium"
       className={styles.pageButton}
-      onClick={() => onEdit(student.id)}
+      onClick={() => onEdit(student)}
       aria-label={`Editar estudante ${student.firstName}`}
     >
       Editar
@@ -126,7 +126,7 @@ const StudentActions = ({
 // Componente para renderizar uma linha da tabela
 interface StudentRowProps {
   student: IStudent;
-  onEdit: (id: string) => void;
+  onEdit: (studentData: IStudent) => void;
   onDelete: (id: string) => void;
   onSchedule: (id: string) => void;
 }
@@ -262,11 +262,11 @@ export const StudentManagementTable = () => {
         <StudentFormModal
           onClose={closeModals}
           title={`Editar o estudante ${
-            students.find((s) => s.id === modalState.editId)?.firstName
+            students.find((s) => s.id === modalState.editId?.id)?.firstName
           }`}
           isOpen={true}
           type="edit"
-          studentId={modalState.editId}
+          studentData={modalState.editId}
         />
       )}
 

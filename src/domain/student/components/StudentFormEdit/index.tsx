@@ -12,15 +12,16 @@ import {
   type StudentEditFormData,
 } from "../StudentForm/studentSchemas";
 import { useToastContext } from "../../../../hooks/useToastContext";
+import type { IStudent } from "../../../../hooks/useStudents";
 
 interface IStudentForm {
   onClose: () => void;
-  studentId: string;
+  studentData: IStudent;
 }
 
 export const StudentFormEdit: React.FC<IStudentForm> = ({
   onClose,
-  studentId,
+  studentData,
 }) => {
   const { reFetch } = useStudentsContext();
   const toast = useToastContext();
@@ -33,6 +34,16 @@ export const StudentFormEdit: React.FC<IStudentForm> = ({
     formState: { errors },
   } = useForm<StudentEditFormData>({
     resolver: zodResolver(editStudentSchema),
+    defaultValues: {
+      firstName: studentData.firstName,
+      lastName: studentData.lastName,
+      birthDate: studentData.birthDate.split("T")[0],
+      cep: studentData.cep,
+      number: studentData.number,
+      whatsapp: studentData.whatsapp,
+      phone: studentData.phone,
+      email: studentData.email,
+    },
   });
   const cepValue = watch("cep");
   const formatarInput = (
@@ -74,7 +85,7 @@ export const StudentFormEdit: React.FC<IStudentForm> = ({
     data.lastName = data.lastName?.trimEnd();
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/students/update/${studentId}`,
+        `${import.meta.env.VITE_API_URL}/students/update/${studentData.id}`,
         {
           method: "PATCH",
           headers: { "Content-type": "application/json" },
@@ -142,6 +153,7 @@ export const StudentFormEdit: React.FC<IStudentForm> = ({
             type="date"
             value={field.value || ""}
             onChange={(e) => {
+              console.log({ birthDate: field.value });
               const valor = e.target.value;
               field.onChange(valor);
             }}
