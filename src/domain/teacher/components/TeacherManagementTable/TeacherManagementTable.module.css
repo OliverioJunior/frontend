@@ -37,6 +37,7 @@
 
 .searchInput {
   width: 100%;
+  margin-bottom: 1rem;
   padding: var(--md) var(--lg) var(--md) 2.75rem; /* 44px left padding for icon */
   border: 2px solid var(--border-color);
   border-radius: var(--border-radius-lg);

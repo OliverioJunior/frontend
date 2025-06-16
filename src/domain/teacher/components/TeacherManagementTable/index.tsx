@@ -14,7 +14,7 @@ import { Table } from "../../../../shared/components/Table";
 import type { ITeacher } from "../../../../hooks/useTeacher";
 
 export const TeacherManagementTable = () => {
-  const { teachers, error, loading } = useTeacherContext();
+  const { teachers, error, loading, reFetch } = useTeacherContext();
   const { reFetch: reFetchScheduling } = useSchedulingContext();
   const toast = useToastContext();
   const [searchTerm, setSearchTerm] = useState("");
@@ -43,6 +43,7 @@ export const TeacherManagementTable = () => {
           toast.error(response.message);
           return;
         }
+        reFetch();
         handleSchedulingTeacher(id);
         toast.success(response.message);
       })
