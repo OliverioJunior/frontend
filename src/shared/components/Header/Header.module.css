@@ -49,7 +49,6 @@
   padding: 0.5rem;
   border-radius: 4px;
   transition: background-color 0.2s ease;
-  z-index: 1001;
 }
 
 .mobileMenuButton:hover {
@@ -99,7 +98,6 @@
 /* Seção do usuário */
 .userSection {
   position: relative;
-  z-index: 1002;
 }
 
 .userButton {
@@ -140,7 +138,6 @@
   visibility: hidden;
   transform: translateY(-8px);
   transition: all 0.2s ease;
-  z-index: 1003;
 }
 
 .userDropdown.active {

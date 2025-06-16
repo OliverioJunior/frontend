@@ -7,7 +7,6 @@
   margin: 0 auto;
   padding: var(--xl) var(--container-padding);
   background-color: var(--background);
-  min-height: 100vh;
   font-family: var(--font-family-base);
 }
 

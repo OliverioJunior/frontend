@@ -125,6 +125,9 @@ body {
     --text-3xl: 2rem;      /* 32px */
     --text-4xl: 2.5rem;    /* 40px */
   }
+  body {
+    padding: 0 ;
+  }
 }
 
 /* Tablet (768px+) */
@@ -138,6 +141,9 @@ body {
   
   html {
     font-size: 17px;
+  }
+  body {
+    padding: 0 ;
   }
 }
 
@@ -155,12 +161,6 @@ body {
   }
 }
 
-/* Desktop grande (1280px+) */
-@media (min-width: 1280px) {
-  body {
-    padding: 0 var(--container-padding-lg);
-  }
-}
 
 /* Desktop muito grande (1536px+) */
 @media (min-width: 1536px) {
@@ -183,12 +183,15 @@ body {
   html {
     font-size: 15px;
   }
+  body {
+    padding: 0 ;
+  }
 }
 
 /* Landscape em dispositivos móveis */
 @media (max-height: 480px) and (orientation: landscape) {
   body {
-    padding: 0 var(--sm);
+    padding: 0;
   }
 }
 
