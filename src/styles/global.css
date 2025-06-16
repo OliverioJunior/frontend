@@ -115,6 +115,9 @@ body {
   :root {
     --container-padding: 1rem;
   }
+  body {
+    padding: 0;
+  }
 }
 
 /* Smartphone (480px+) */
