@@ -20,7 +20,6 @@
   position: relative;
   width: 100%;
   max-width: 500px;
-  max-height: 90vh;
   background-color: var(--background-secondary);
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-lg);
@@ -203,7 +202,6 @@
 
 /* Scroll interno para conteúdo longo */
 .modalContent > *:not(.modalHeader) {
-  max-height: calc(90vh - 5rem);
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--font-lighter) var(--background);
