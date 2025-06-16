@@ -11,6 +11,7 @@ import { Modal } from "../../../../shared/components/Modal";
 import { useToastContext } from "../../../../hooks/useToastContext";
 import { useSchedulingContext } from "../../../../hooks/useScheduingContext";
 import { Table } from "../../../../shared/components/Table";
+import type { ITeacher } from "../../../../hooks/useTeacher";
 
 export const TeacherManagementTable = () => {
   const { teachers, error, loading } = useTeacherContext();
@@ -18,7 +19,7 @@ export const TeacherManagementTable = () => {
   const toast = useToastContext();
   const [searchTerm, setSearchTerm] = useState("");
   const [teacherIdToDelete, setTeacherIdToDelete] = useState<string | null>();
-  const [teacherIdToEdit, setTeacherIdToEdit] = useState<string | null>();
+  const [teacherIdToEdit, setTeacherIdToEdit] = useState<ITeacher | null>();
   const [teacherIdToSchedulings, setTeacherIdSchedulings] = useState<
     string | null
   >();
@@ -148,7 +149,7 @@ export const TeacherManagementTable = () => {
             <td className={styles.actions}>
               <Button
                 className={styles.pageButton}
-                onClick={() => setTeacherIdToEdit(teacher.id)}
+                onClick={() => setTeacherIdToEdit(teacher)}
               >
                 Editar
               </Button>
@@ -187,11 +188,11 @@ export const TeacherManagementTable = () => {
         <TeacherFormModal
           onClose={() => setTeacherIdToEdit(null)}
           title={`Editar o professor ${
-            teachers.find((s) => s.id === teacherIdToEdit)?.firstName
+            teachers.find((s) => s.id === teacherIdToEdit.id)?.firstName
           }`}
           isOpen={!!teacherIdToEdit}
           type="edit"
-          teacherId={teacherIdToEdit}
+          teacherData={teacherIdToEdit}
         />
       )}
       {teacherIdToSchedulings && (

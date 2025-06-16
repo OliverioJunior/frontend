@@ -12,15 +12,16 @@ import {
 import { useTeacherContext } from "../../../../hooks/useTeacherContext";
 import { Select } from "../../../../shared/components/Select";
 import { useToastContext } from "../../../../hooks/useToastContext";
+import type { ITeacher } from "../../../../hooks/useTeacher";
 
 interface ITeacherForm {
   onClose: () => void;
-  teacherId: string;
+  teacherData: ITeacher;
 }
 
 export const TeacherFormEdit: React.FC<ITeacherForm> = ({
   onClose,
-  teacherId,
+  teacherData,
 }) => {
   const { reFetch } = useTeacherContext();
   const toast = useToastContext();
@@ -31,6 +32,12 @@ export const TeacherFormEdit: React.FC<ITeacherForm> = ({
     formState: { errors },
   } = useForm<TeacherEditFormData>({
     resolver: zodResolver(editTeacherSchema),
+    defaultValues: {
+      firstName: teacherData.firstName || "",
+      lastName: teacherData.lastName || "",
+      expertise: teacherData.expertise || "",
+      status: teacherData.status || "",
+    },
   });
 
   const onSubmit = async (data: TeacherEditFormData) => {
@@ -38,7 +45,7 @@ export const TeacherFormEdit: React.FC<ITeacherForm> = ({
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/teachers/update/${teacherId}`,
+        `${import.meta.env.VITE_API_URL}/teachers/update/${teacherData.id}`,
         {
           method: "PATCH",
           headers: { "Content-type": "application/json" },
@@ -65,6 +72,7 @@ export const TeacherFormEdit: React.FC<ITeacherForm> = ({
         control={control}
         render={({ field }) => (
           <Input
+            label="Nome"
             placeholder="Nome"
             value={field.value || ""}
             onChange={(e) => {
@@ -83,6 +91,7 @@ export const TeacherFormEdit: React.FC<ITeacherForm> = ({
         control={control}
         render={({ field }) => (
           <Input
+            label="Sobrenome"
             placeholder="Sobrenome"
             value={field.value || ""}
             onChange={(e) => {
@@ -101,6 +110,7 @@ export const TeacherFormEdit: React.FC<ITeacherForm> = ({
         control={control}
         render={({ field }) => (
           <Input
+            label="Especialidade"
             placeholder="Especialidade"
             value={field.value || ""}
             onChange={(e) => {

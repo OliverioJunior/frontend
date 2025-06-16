@@ -1,3 +1,4 @@
+import type { ITeacher } from "../../../../hooks/useTeacher";
 import { Modal, type IModalProps } from "../../../../shared/components/Modal";
 import { TeacherForm } from "../TeacherForm";
 import { TeacherFormEdit } from "../TeacherFormEdit";
@@ -8,7 +9,7 @@ interface ITeacherFormModalBase extends IModalProps {
 
 type TTeacherFormModalProps =
   | (ITeacherFormModalBase & { type: "create" })
-  | (ITeacherFormModalBase & { type: "edit"; teacherId: string });
+  | (ITeacherFormModalBase & { type: "edit"; teacherData: ITeacher });
 
 export const TeacherFormModal = ({
   isOpen,
@@ -22,9 +23,9 @@ export const TeacherFormModal = ({
       case "create":
         return <TeacherForm onClose={onClose} />;
       case "edit":
-        if (!("teacherId" in props)) return null;
+        if (!("teacherData" in props)) return null;
         return (
-          <TeacherFormEdit onClose={onClose} teacherId={props.teacherId} />
+          <TeacherFormEdit onClose={onClose} teacherData={props.teacherData} />
         );
       default:
         return null;
