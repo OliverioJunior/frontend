@@ -2,6 +2,7 @@
     /* Layout responsivo */
     width: 100%;
     max-width: 400px;
+    max-height: 70dvh;
     margin: 0 auto;
     padding: var(--lg);
     

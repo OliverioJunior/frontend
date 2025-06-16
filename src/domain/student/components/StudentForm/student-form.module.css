@@ -4,9 +4,9 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--lg);
-    
     /* Dimensões e posicionamento */
     width: 100%;
+    max-height: 70dvh;
     max-width: 480px;
     margin: 0 auto;
     padding: var(--xl);
