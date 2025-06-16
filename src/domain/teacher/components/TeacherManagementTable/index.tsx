@@ -156,6 +156,7 @@ export const TeacherManagementTable = () => {
               <Button
                 onClick={() => setTeacherIdToDelete(teacher.id)}
                 className={styles.pageButton}
+                disabled={teacher.status === "inactive"}
               >
                 Desativar
               </Button>
