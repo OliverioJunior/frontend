@@ -141,6 +141,7 @@
     color: #0c4a6e;
     font-size: 14px;
     text-align: center;
+    cursor: pointer;
   }
   
   .fieldHint {

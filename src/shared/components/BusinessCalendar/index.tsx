@@ -21,6 +21,7 @@ interface BusinessCalendarProps {
     end: number; // Hora de fim (padrão: 17)
   };
   excludedDates?: Date[]; // Datas específicas para excluir
+  excludedHours?: Date[]; // Horas específicas para excluir
   locale?: string; // Idioma (padrão: 'pt-BR')
 }
 
@@ -53,6 +54,7 @@ export const BusinessCalendar: React.FC<BusinessCalendarProps> = ({
   minAdvanceHours = 24,
   businessHours = DEFAULT_BUSINESS_HOURS,
   excludedDates = [],
+  excludedHours = [],
   locale = "pt-BR",
 }) => {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
@@ -64,12 +66,37 @@ export const BusinessCalendar: React.FC<BusinessCalendarProps> = ({
     const dayOfWeek = date.getDay();
     return dayOfWeek >= 1 && dayOfWeek <= 5; // Segunda a sexta
   }, []);
-
+  const isExcludedHours = useCallback(
+    (date: Date): number[] => {
+      const daySelect = excludedHours.filter(
+        (excludedHour) => excludedHour.toDateString() === date.toDateString()
+      );
+      const hours = daySelect.map((day) => {
+        return day.getHours();
+      });
+      return hours;
+    },
+    [excludedHours]
+  );
   const isBusinessHour = useCallback(
     (hour: number): boolean => {
+      if (selectedDate && excludedHours.length !== 0) {
+        return (
+          hour >= businessHours.start &&
+          hour <= businessHours.end &&
+          !isExcludedHours(selectedDate).includes(hour)
+        );
+      }
+
       return hour >= businessHours.start && hour <= businessHours.end;
     },
-    [businessHours]
+    [
+      businessHours.end,
+      businessHours.start,
+      excludedHours,
+      isExcludedHours,
+      selectedDate,
+    ]
   );
 
   const isExcludedDate = useCallback(
@@ -178,7 +205,6 @@ export const BusinessCalendar: React.FC<BusinessCalendarProps> = ({
       if (!selectedDate) return;
 
       setSelectedTime(time);
-
       const [hours, minutes] = time.split(":").map(Number);
       const dateTime = new Date(selectedDate);
       dateTime.setHours(hours, minutes, 0, 0);

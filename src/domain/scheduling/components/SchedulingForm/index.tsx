@@ -29,6 +29,7 @@ import styles from "./scheduling-form.module.css";
 import { ErrorMessage } from "../../../../shared/components/ErrorMessage";
 import { LoadingSpinner } from "../../../../shared/components/LoadingSpinner";
 import { StatusCode } from "../../../../entidades/statusCode.enum";
+import { Modal } from "../../../../shared/components/Modal";
 
 interface ISchedulingForm {
   onClose: () => void;
@@ -57,6 +58,7 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   // configurações para "create"
   const createForm = useForm<SchedulingFormData>({
     resolver: zodResolver(baseSchedulingSchema),
@@ -93,12 +95,12 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
   );
 
   React.useEffect(() => {
-    if (selectedDateTime) {
+    if (selectedTeacher) {
       const teacherSelected = teachers.find(
         (teacher) => teacher.id === selectedTeacher
       );
       setDateScheduled(
-        teacherSelected?.Schedulings?.map(
+        teacherSelected?.Scheduling?.map(
           (scheduling) => new Date(scheduling.dateTime)
         ) || undefined
       );
@@ -262,53 +264,6 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
             className={styles.form}
             noValidate
           >
-            {/* Data e Hora */}
-            <div className={styles.fieldGroup}>
-              <label className={styles.fieldLabel}>
-                <Calendar size={16} />
-                Data e Horário *
-              </label>
-              <Controller
-                name="dateTime"
-                control={createForm.control}
-                render={({ field }) => (
-                  <div className={styles.calendarWrapper}>
-                    <BusinessCalendar
-                      onDateTimeSelect={(dateTime) => {
-                        field.onChange(dateTime.toISOString());
-                      }}
-                      selectedDateTime={
-                        field.value ? new Date(field.value) : null
-                      }
-                      excludedDates={dateScheduled}
-                      minAdvanceHours={24}
-                    />
-                    {selectedDateTime && (
-                      <div className={styles.selectedDateTimeDisplay}>
-                        <strong>Selecionado:</strong>{" "}
-                        {new Date(selectedDateTime).toLocaleString("pt-BR", {
-                          weekday: "long",
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </div>
-                    )}
-                  </div>
-                )}
-              />
-              {createForm.formState.errors.dateTime && (
-                <ErrorMessage
-                  message={
-                    createForm.formState.errors.dateTime.message as string
-                  }
-                  size="small"
-                />
-              )}
-            </div>
-
             {/* Professor */}
             <div className={styles.fieldGroup}>
               <label htmlFor="teacher-select" className={styles.fieldLabel}>
@@ -371,6 +326,69 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
                   id="student-error"
                   message={
                     createForm.formState.errors.studentId.message as string
+                  }
+                  size="small"
+                />
+              )}
+            </div>
+            {/* Data e Hora */}
+            <div className={styles.fieldGroup}>
+              <label className={styles.fieldLabel}>
+                <Calendar size={16} />
+                Data e Horário *
+              </label>
+              <Controller
+                name="dateTime"
+                control={createForm.control}
+                render={({ field }) => (
+                  <div className={styles.calendarWrapper}>
+                    {!isModalOpen && !selectedDateTime && (
+                      <Button
+                        variant="ghost"
+                        onClick={() => setIsModalOpen(true)}
+                      >
+                        Selecionar Data e Hora{" "}
+                      </Button>
+                    )}
+                    <Modal
+                      isOpen={isModalOpen}
+                      onClose={() => setIsModalOpen(false)}
+                      content={
+                        <BusinessCalendar
+                          onDateTimeSelect={(dateTime) => {
+                            field.onChange(dateTime.toISOString());
+                          }}
+                          selectedDateTime={
+                            field.value ? new Date(field.value) : null
+                          }
+                          excludedHours={dateScheduled}
+                          minAdvanceHours={24}
+                        />
+                      }
+                    />
+                    {selectedDateTime && (
+                      <div
+                        className={styles.selectedDateTimeDisplay}
+                        onClick={() => setIsModalOpen(true)}
+                      >
+                        <strong>Selecionado:</strong>{" "}
+                        {new Date(selectedDateTime).toLocaleString("pt-BR", {
+                          weekday: "long",
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </div>
+                    )}
+                  </div>
+                )}
+              />
+              {createForm.formState.errors.dateTime && (
+                <ErrorMessage
+                  message={
+                    createForm.formState.errors.dateTime.message as string
                   }
                   size="small"
                 />
@@ -508,50 +526,6 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
           className={styles.form}
           noValidate
         >
-          {/* Data e Hora */}
-          <div className={styles.fieldGroup}>
-            <label className={styles.fieldLabel}>
-              <Calendar size={16} />
-              Data e Horário *
-            </label>
-            <Controller
-              name="dateTime"
-              control={editForm.control}
-              render={({ field }) => (
-                <div className={styles.calendarWrapper}>
-                  <BusinessCalendar
-                    onDateTimeSelect={(dateTime) => {
-                      field.onChange(dateTime.toISOString());
-                    }}
-                    selectedDateTime={
-                      field.value ? new Date(field.value) : null
-                    }
-                    minAdvanceHours={24}
-                  />
-                  {selectedDateTime && (
-                    <div className={styles.selectedDateTimeDisplay}>
-                      <strong>Selecionado:</strong>{" "}
-                      {new Date(selectedDateTime).toLocaleString("pt-BR", {
-                        weekday: "long",
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </div>
-                  )}
-                </div>
-              )}
-            />
-            {editForm.formState.errors.dateTime && (
-              <ErrorMessage
-                message={editForm.formState.errors.dateTime.message as string}
-                size="small"
-              />
-            )}
-          </div>
-
           {/* Professor */}
           <div className={styles.fieldGroup}>
             <label htmlFor="teacher-select" className={styles.fieldLabel}>
@@ -611,6 +585,67 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
               <ErrorMessage
                 id="student-error"
                 message={editForm.formState.errors.studentId.message as string}
+                size="small"
+              />
+            )}
+          </div>
+          {/* Data e Hora */}
+          <div className={styles.fieldGroup}>
+            <label className={styles.fieldLabel}>
+              <Calendar size={16} />
+              Data e Horário *
+            </label>
+            <Controller
+              name="dateTime"
+              control={editForm.control}
+              render={({ field }) => (
+                <div className={styles.calendarWrapper}>
+                  {!isModalOpen && !selectedDateTime && (
+                    <Button
+                      variant="ghost"
+                      onClick={() => setIsModalOpen(true)}
+                    >
+                      Selecionar Data e Hora{" "}
+                    </Button>
+                  )}
+                  <Modal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    content={
+                      <BusinessCalendar
+                        onDateTimeSelect={(dateTime) => {
+                          field.onChange(dateTime.toISOString());
+                        }}
+                        selectedDateTime={
+                          field.value ? new Date(field.value) : null
+                        }
+                        excludedHours={dateScheduled}
+                        minAdvanceHours={24}
+                      />
+                    }
+                  />
+                  {selectedDateTime && (
+                    <div
+                      className={styles.selectedDateTimeDisplay}
+                      onClick={() => setIsModalOpen(true)}
+                    >
+                      <strong>Selecionado:</strong>{" "}
+                      {new Date(selectedDateTime).toLocaleString("pt-BR", {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
+            />
+            {editForm.formState.errors.dateTime && (
+              <ErrorMessage
+                message={editForm.formState.errors.dateTime.message as string}
                 size="small"
               />
             )}

@@ -156,7 +156,6 @@ export const StudentFormEdit: React.FC<IStudentForm> = ({
             type="date"
             value={field.value || ""}
             onChange={(e) => {
-              console.log({ birthDate: field.value });
               const valor = e.target.value;
               field.onChange(valor);
             }}

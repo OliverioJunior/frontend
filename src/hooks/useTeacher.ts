@@ -9,7 +9,7 @@ export interface ITeacher {
   birthdate: string;
   status: "active" | "inactive";
   expertise: string;
-  Schedulings: IScheduling[] | [];
+  Scheduling: IScheduling[] | [];
 }
 
 export const useTeachers = () => {
