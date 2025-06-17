@@ -34,8 +34,15 @@ export const useScheduling = () => {
     } catch (error) {
       if (error instanceof Error && error.name === "AbortError") {
         setError(error.message);
+      } else if (
+        error instanceof Error &&
+        error.message === "Failed to fetch"
+      ) {
+        setError(
+          "Erro ao buscar agendamentos, verifique sua conexão com a internet ou seu servidor está offline"
+        );
       } else {
-        setError("Erro ao buscar agendamentos");
+        setError("Erro desconhecido ao buscar agendamentos");
       }
     } finally {
       setLoading(false);

@@ -60,7 +60,7 @@ export const StudentScheduleTable: React.FC<StudentScheduleTableProps> = ({
             error &&
             error !== "signal is aborted without reason" && (
               <tr>
-                <td colSpan={4}>Ocorreu um erro: {error}</td>
+                <td colSpan={4}>{error}</td>
               </tr>
             )}
           {schedulings &&

@@ -37,12 +37,14 @@ export const useTeachers = () => {
       } = await response.json();
       setTeachers(responseInJsonh.data);
     } catch (err) {
-      if (err instanceof Error && err.name !== "AbortError") {
-        setError(err.message);
+      if (err instanceof Error && err.message === "Failed to fetch") {
+        setError(
+          "Erro ao buscar professores, verifique sua conexão com a internet ou seu servidor está offline"
+        );
       } else if (err instanceof Error && err.name === "AbortError") {
         setError(null);
       } else {
-        setError("Erro desconhecido ao carregar estudantes");
+        setError("Erro desconhecido ao carregar Professores");
       }
     } finally {
       setLoading(false);

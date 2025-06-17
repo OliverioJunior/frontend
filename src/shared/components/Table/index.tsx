@@ -18,7 +18,7 @@ const TableState = ({ loading, error }: TableStateProps) => {
   if (error && !loading)
     return (
       <tr>
-        <td>Erro: {error}</td>
+        <td>{error}</td>
       </tr>
     );
 

@@ -39,8 +39,12 @@ export const useStudents = () => {
       setStudents(responseInJson.data);
       setLoading(false);
     } catch (err) {
-      if (err instanceof Error && err.name !== "AbortError") {
-        setError(err.message);
+      console.log({ catchError: err });
+      console.log({ typeof: typeof err });
+      if (err instanceof Error && err.message === "Failed to fetch") {
+        setError(
+          "Erro ao buscar estudantes, verifique sua conexão com a internet ou seu servidor está offline"
+        );
       } else if (err instanceof Error && err.name === "AbortError") {
         setError(null);
       } else {
@@ -57,8 +61,11 @@ export const useStudents = () => {
   useEffect(() => {
     const controller = new AbortController();
     fetchStudents(controller.signal);
+
     return () => controller.abort();
   }, [fetchStudents]);
-
+  useEffect(() => {
+    console.log("useFetch", error);
+  }, [error]);
   return { students, loading, error, reFetch, setStudents };
 };
