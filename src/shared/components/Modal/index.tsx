@@ -50,6 +50,7 @@ export const Modal = ({ isOpen, title, onClose, content }: IModalProps) => {
       ) : (
         <div
           className={styles.modal}
+          style={{ overflowY: "scroll" }}
           onClick={(e) => e.target === e.currentTarget && onClose()}
         >
           {content}
