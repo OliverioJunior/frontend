@@ -149,17 +149,17 @@
   cursor: pointer;
   font-size: 14px;
   transition: all 0.2s;
-  background-color: #fff;
+
 }
 
 .timeSlot:hover:not(:disabled) {
-  background-color: #dbeafe;
+  background-color: #4889df;
   border-color: #2563eb;
 }
 
 .timeSlot:focus {
   outline: none;
-  border-color: #2563eb;
+ 
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
 }
 
@@ -171,9 +171,10 @@
 }
 
 .timeSlotSelected {
-  background-color: #2563eb;
-  color: white;
-  border-color: #2563eb;
+  background-color: #020081;
+  color: rgb(211, 248, 2);
+  border: 2px solid rgb(249, 253, 3);
+  box-shadow: none;
 }
 
 .timeSlotUnavailable {
@@ -271,37 +272,7 @@
   }
 }
 
-/* Tema Dark (opcional) */
-@media (prefers-color-scheme: dark) {
-  .container {
-    background-color: #1f2937;
-    color: #f9fafb;
-  }
-  
-  .dayCell {
-    background-color: #374151;
-    color: #f9fafb;
-  }
-  
-  .dayAvailable:hover {
-    background-color: #4b5563;
-  }
-  
-  .dayUnavailable {
-    background-color: #111827;
-    color: #6b7280;
-  }
-  
-  .timeSlot {
-    background-color: #374151;
-    border-color: #4b5563;
-    color: #f9fafb;
-  }
-  
-  .timeSlot:hover:not(:disabled) {
-    background-color: #4b5563;
-  }
-}
+
 
 /* Animações suaves */
 .dayCell,
@@ -311,9 +282,5 @@
 
 /* Melhor contraste para acessibilidade */
 .daySelected {
-  background-color: #1d4ed8;
-}
-
-.timeSlotSelected {
   background-color: #1d4ed8;
 }
