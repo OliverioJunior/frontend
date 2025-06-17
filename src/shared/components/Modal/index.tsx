@@ -32,23 +32,20 @@ export const Modal = ({ isOpen, title, onClose, content }: IModalProps) => {
           className={styles.modal}
           onClick={(e) => e.target === e.currentTarget && onClose()}
         >
-          (
           <div
             ref={modalRef}
             className={styles.modalContent}
             role="dialog"
             aria-modal="true"
           >
-            (
             <div className={styles.modalHeader}>
               <h2 className={styles.title}>{title}</h2>
               <Button size="small" variant="ghost" onClick={onClose}>
                 <X />
               </Button>
             </div>
-            )
+            {content}
           </div>
-          )
         </div>
       ) : (
         <div
