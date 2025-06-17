@@ -57,7 +57,6 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
-
   // configurações para "create"
   const createForm = useForm<SchedulingFormData>({
     resolver: zodResolver(baseSchedulingSchema),
@@ -86,6 +85,25 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
   const selectedDateTime = isCreating
     ? createForm.watch("dateTime")
     : editForm.watch("dateTime");
+  const selectedTeacher = isCreating
+    ? createForm.watch("teacherId")
+    : editForm.watch("teacherId");
+  const [dateScheduled, setDateScheduled] = useState<Date[] | undefined>(
+    undefined
+  );
+
+  React.useEffect(() => {
+    if (selectedDateTime) {
+      const teacherSelected = teachers.find(
+        (teacher) => teacher.id === selectedTeacher
+      );
+      setDateScheduled(
+        teacherSelected?.Schedulings?.map(
+          (scheduling) => new Date(scheduling.dateTime)
+        ) || undefined
+      );
+    }
+  }, [selectedTeacher]);
   const isLoading = teachersLoading || studentsLoading;
   const hasErrors = teachersError || studentsError;
 
@@ -262,6 +280,7 @@ export const SchedulingForm: React.FC<ISchedulingForm> = ({
                       selectedDateTime={
                         field.value ? new Date(field.value) : null
                       }
+                      excludedDates={dateScheduled}
                       minAdvanceHours={24}
                     />
                     {selectedDateTime && (

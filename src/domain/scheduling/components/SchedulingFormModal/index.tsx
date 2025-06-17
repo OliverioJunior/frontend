@@ -12,7 +12,6 @@ type TSchedulingFormModalProps = ISchedulingFormModalBase;
 export const SchedulingFormModal = ({
   isOpen,
   onClose,
-  title,
   type,
   initialData,
 }: TSchedulingFormModalProps) => {
@@ -23,11 +22,6 @@ export const SchedulingFormModal = ({
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      title={title}
-      content={renderFormComponent()}
-    />
+    <Modal isOpen={isOpen} onClose={onClose} content={renderFormComponent()} />
   );
 };

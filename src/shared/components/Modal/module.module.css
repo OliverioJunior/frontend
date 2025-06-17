@@ -18,6 +18,8 @@
 
 .modalContent {
   position: relative;
+  display: grid;
+  place-items: center;
   width: 100%;
   max-width: 500px;
   background-color: var(--background-secondary);
@@ -30,6 +32,7 @@
 
 .modalHeader {
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
   padding: var(--lg) var(--xl);

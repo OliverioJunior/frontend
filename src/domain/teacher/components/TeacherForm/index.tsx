@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createTeacherSchema, type TeacherFormData } from "./teacherSchemas";
 import { useTeacherContext } from "../../../../hooks/useTeacherContext";
 import { useToastContext } from "../../../../hooks/useToastContext";
+import { Select } from "../../../../shared/components/Select";
 
 interface ITeacherForm {
   onClose: () => void;
@@ -142,6 +143,7 @@ export const TeacherForm: React.FC<ITeacherForm> = ({ onClose }) => {
         control={control}
         render={({ field }) => (
           <Input
+            label="Especialidade"
             placeholder="Especialidade"
             type="text"
             value={field.value || ""}
@@ -161,17 +163,17 @@ export const TeacherForm: React.FC<ITeacherForm> = ({ onClose }) => {
         name="status"
         control={control}
         render={({ field }) => (
-          <Input
-            label="Status"
+          <Select
             placeholder="Status"
-            type="checkbox"
-            value={field.value || "inactive"}
+            value={field.value || ""}
+            options={[
+              { id: "active", firstName: "Ativo", lastName: "" },
+              { id: "inactive", firstName: "Inativo", lastName: "" },
+            ]}
             onChange={(e) => {
-              const valor = e.target.checked;
-
-              field.onChange(valor ? "active" : "inactive");
+              const valor = e.id;
+              field.onChange(valor);
             }}
-            variant={errors.status ? "error" : "primary"}
           />
         )}
       />

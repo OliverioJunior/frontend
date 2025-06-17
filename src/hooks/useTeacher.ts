@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import type { IScheduling } from "./useScheduling";
 
 export interface ITeacher {
   id: string;
@@ -8,6 +9,7 @@ export interface ITeacher {
   birthdate: string;
   status: "active" | "inactive";
   expertise: string;
+  Schedulings: IScheduling[] | [];
 }
 
 export const useTeachers = () => {

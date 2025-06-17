@@ -104,17 +104,21 @@ export const Select = ({
 
       {isOpen && (
         <div className={styles.dropdown}>
-          {options.map((option) => (
-            <div
-              key={option.id}
-              className={`${styles.option} ${
-                value === option.id ? styles.optionSelected : ""
-              }`}
-              onClick={() => handleOptionClick(option)}
-            >
-              {option.firstName + " " + option.lastName}
-            </div>
-          ))}
+          {options.length > 0 ? (
+            options.map((option) => (
+              <div
+                key={option.id}
+                className={`${styles.option} ${
+                  value === option.id ? styles.optionSelected : ""
+                }`}
+                onClick={() => handleOptionClick(option)}
+              >
+                {option.firstName + " " + option.lastName}
+              </div>
+            ))
+          ) : (
+            <div className={styles.option}>Nenhuma opção disponível</div>
+          )}
         </div>
       )}
     </div>
