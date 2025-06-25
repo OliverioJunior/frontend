@@ -18,8 +18,14 @@ const phoneSchema = requiredString("Preencha o Telefone")
   .min(10, "Telefone inválido (mín. 10 dígitos)")
   .max(11, "Telefone inválido (máx. 11 dígitos)");
 const whatsappSchema = requiredString("Preencha o Whatsapp")
-  .min(10, "Telefone inválido (mín. 10 dígitos)")
-  .max(13, "Telefone inválido (máx. 13 dígitos)");
+  .min(
+    12,
+    "Telefone whatsapp inválido confira o formato 5(99) 99999-9999 ou 55(99) 99999-9999"
+  )
+  .max(
+    13,
+    "Telefone whatsapp inválido confira o formato 5(99) 99999-9999 ou 55(99) 99999-9999"
+  );
 
 const baseStudentSchema = z.object({
   firstName: requiredString("Preencha o Nome").min(3, "Nome obrigatório"),
