@@ -64,6 +64,7 @@ export const StudentForm: React.FC<IStudentForm> = ({ onClose }) => {
   }, [cepValue, setValue, setError]);
 
   const onSubmit = async (data: StudentFormData) => {
+    console.log(`${import.meta.env.VITE_API_URL}`);
     delete data.logradouro;
     data.lastName = data.lastName.trimEnd();
     try {
