@@ -39,8 +39,6 @@ export const useStudents = () => {
       setStudents(responseInJson.data);
       setLoading(false);
     } catch (err) {
-      console.log({ catchError: err });
-      console.log({ typeof: typeof err });
       if (err instanceof Error && err.message === "Failed to fetch") {
         setError(
           "Erro ao buscar estudantes, verifique sua conexão com a internet ou seu servidor está offline"
@@ -64,8 +62,6 @@ export const useStudents = () => {
 
     return () => controller.abort();
   }, [fetchStudents]);
-  useEffect(() => {
-    console.log("useFetch", error);
-  }, [error]);
+  useEffect(() => {}, [error]);
   return { students, loading, error, reFetch, setStudents };
 };
