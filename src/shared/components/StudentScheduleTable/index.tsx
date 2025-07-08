@@ -2,6 +2,7 @@ import React from "react";
 import "./StudentScheduleTable.css";
 import type { IScheduling } from "../../../hooks/useScheduling";
 import { Button } from "../Button";
+import { formatarDateTime } from "../../utils";
 
 interface StudentScheduleTableProps {
   schedulings?: IScheduling[];
@@ -29,14 +30,6 @@ export const StudentScheduleTable: React.FC<StudentScheduleTableProps> = ({
       ?.toLowerCase()
       .replace(/\s+/g, "-")}`;
     return <span className={statusClass}>{status}</span>;
-  };
-
-  const formatDateTime = (dateTime: string): string => {
-    try {
-      return new Date(dateTime).toLocaleString("pt-BR");
-    } catch {
-      return dateTime;
-    }
   };
 
   return (
@@ -76,7 +69,7 @@ export const StudentScheduleTable: React.FC<StudentScheduleTableProps> = ({
                     <div className="content-title">{scheduling.content}</div>
                     {scheduling.dateTime && (
                       <div className="content-date">
-                        {formatDateTime(scheduling.dateTime)}
+                        {formatarDateTime(scheduling.dateTime)}
                       </div>
                     )}
                   </div>

@@ -33,3 +33,33 @@ export function formatarCEP(cep: string): string {
   if (length <= 5) return numeros;
   return `${numeros.slice(0, 5)}-${numeros.slice(5)}`;
 }
+
+/**
+ * Formata uma data/hora para o padrão brasileiro
+ * @param dateTime String contendo a data/hora a ser formatada
+ * @returns Data/hora formatada no padrão brasileiro
+ */
+export function formatarDateTime(dateTime: string): string {
+  if (!dateTime) return "";
+
+  try {
+    const date = new Date(dateTime);
+
+    // Verifica se a data é válida
+    if (isNaN(date.getTime())) {
+      return dateTime;
+    }
+
+    return date.toLocaleString("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      timeZone: "America/Sao_Paulo",
+    });
+  } catch {
+    return dateTime;
+  }
+}
