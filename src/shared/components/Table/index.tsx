@@ -1,3 +1,4 @@
+import React from "react";
 import styles from "./table.module.css";
 interface TableStateProps {
   loading: boolean;
@@ -6,6 +7,7 @@ interface TableStateProps {
 interface ITable extends TableStateProps {
   TableHeader: React.ReactNode;
   TableBody: React.ReactNode;
+  emptyMessage?: string;
 }
 
 const TableState = ({ loading, error }: TableStateProps) => {
@@ -30,7 +32,9 @@ export const Table: React.FC<ITable> = ({
   TableBody,
   loading,
   error,
+  emptyMessage,
 }) => {
+  const hasData = React.Children.count(TableBody) > 0;
   return (
     <div className={styles.tableContainer}>
       <table className={styles.table}>
@@ -38,10 +42,14 @@ export const Table: React.FC<ITable> = ({
           <tr>{TableHeader}</tr>
         </thead>
         <tbody>
-          {!loading && !error ? (
+          {loading || error ? (
+            <TableState loading={loading} error={error} />
+          ) : hasData ? (
             TableBody
           ) : (
-            <TableState loading={loading} error={error} />
+            <tr>
+              <td colSpan={999}>{emptyMessage}</td>
+            </tr>
           )}
         </tbody>
       </table>

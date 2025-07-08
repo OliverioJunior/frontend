@@ -229,6 +229,7 @@ export const StudentManagementTable = () => {
       <Table
         loading={loading}
         error={error}
+        emptyMessage="Nenhum estudante encontrado"
         TableHeader={
           <>
             <th>Nome</th>

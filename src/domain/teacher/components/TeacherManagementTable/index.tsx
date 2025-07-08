@@ -132,6 +132,7 @@ export const TeacherManagementTable = () => {
       <Table
         loading={loading}
         error={error}
+        emptyMessage="Nenhum professor encontrado"
         TableHeader={
           <>
             <th>Nome</th>
@@ -216,9 +217,6 @@ export const TeacherManagementTable = () => {
             />
           }
         />
-      )}
-      {!filteredTeacher.length && !loading && error === null && (
-        <div>Nenhum professor encontrado</div>
       )}
     </div>
   );
