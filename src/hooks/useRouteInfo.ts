@@ -1,6 +1,9 @@
 import { useLocation } from "react-router";
 import type { TRoutes } from "../shared/components/Header/components/RouteActions/RouteActions";
-
+/**
+ * Hook para obter informações da rota atual
+ * @returns Objeto contendo título e chave da rota
+ */
 export const useRouteInfo = () => {
   const location = useLocation();
   const pathSegments = location.pathname.split("/").filter(Boolean);
